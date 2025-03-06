@@ -182,8 +182,11 @@ class MujocoSim:
         site_id = self.model.site('pinch_site').id
         self.site_xpos = self.data.site(site_id).xpos
         self.site_xmat = self.data.site(site_id).xmat
-        self.site_quat = np.empty(4)
+        self.site_quat = np.zeros(4, dtype=np.float64) 
         
+        self.base_height = self.model.body('gen3/base_link').pos[2]
+        self.base_rot_axis = np.array([0.0, 0.0, 1.0])
+        self.base_quat_inv = np.zeros(4, dtype=np.float64) 
         # 重置环境
         self.reset()
         
@@ -197,6 +200,10 @@ class MujocoSim:
         # 重置控制器
         self.arm_controller.reset()
         mujoco.mj_forward(self.model, self.data)
+        
+        # 初始化base_quat_inv
+        base_quat = np.array([0.0, 0.0, 0.0, 1.0], dtype=np.float64)  # 默认四元数(w,x,y,z)
+        mujoco.mju_negQuat(self.base_quat_inv, base_quat)  # 计算四元数的逆
     
     def control_callback(self, *_):
         # 检查新命令
@@ -204,13 +211,20 @@ class MujocoSim:
         if command == 'reset':
             self.reset()
         
+        # 更新arm quat - 只需要调用一次mju_mat2Quat
+        site_xmat_flat = np.array(self.site_xmat, dtype=np.float64).flatten()
+        mujoco.mju_mat2Quat(self.site_quat, site_xmat_flat)
+        
+        # 计算局部坐标系中的四元数
+        local_quat = np.zeros(4, dtype=np.float64)
+        mujoco.mju_mulQuat(local_quat, self.base_quat_inv, self.site_quat)
+        
         # 控制回调
         self.arm_controller.control_callback(command)
         
-        # 更新共享内存状态
-        mujoco.mju_mat2Quat(self.site_quat, self.site_xmat.reshape(3, 3))
+        # 更新共享内存状态 - 不要重复调用mju_mat2Quat
         self.shm_state.arm_pos[:] = self.site_xpos
-        self.shm_state.arm_quat[:] = self.site_quat
+        self.shm_state.arm_quat[:] = local_quat  # 使用计算好的局部坐标系四元数
         self.shm_state.gripper_pos[:] = self.qpos_gripper / 255.0  # 归一化夹爪位置
         self.shm_state.initialized[:] = 1.0
     
