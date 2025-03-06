@@ -184,7 +184,7 @@ class MujocoSim:
         self.site_xmat = self.data.site(site_id).xmat
         self.site_quat = np.zeros(4, dtype=np.float64) 
         
-        self.base_height = self.model.body('gen3/base_link').pos[2]
+        self.base_height = self.model.body('base_link').pos[2]
         self.base_rot_axis = np.array([0.0, 0.0, 1.0])
         self.base_quat_inv = np.zeros(4, dtype=np.float64) 
         # 重置环境
