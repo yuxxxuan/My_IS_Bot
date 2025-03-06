@@ -7,7 +7,6 @@ from itertools import count
 from constants import POLICY_CONTROL_PERIOD
 from episode_storage import EpisodeWriter
 from is_kinova_teleop import KinovaTeleopPolicy
-from is_kinova_env import KinovaSimEnv, KinovaRealEnv
 
 def should_save_episode(writer):
     if len(writer) == 0:
@@ -83,8 +82,12 @@ def run_episode(env, policy, writer=None):
 def main(args):
     # 创建环境
     if args.sim:
-        env = KinovaSimEnv(show_images=args.show_images)
+        from is_mujoco_env import KinovaMujocoEnv
+        env = KinovaMujocoEnv(show_images=args.show_images)
     else:
+        from is_real_env import KinovaRealEnv, HAS_KINOVA_API
+        if not HAS_KINOVA_API:
+            raise ImportError("无法创建真实环境：未找到Kinova API。请安装kortex_api或使用--sim参数运行模拟环境。")
         env = KinovaRealEnv()
 
     # 创建策略
