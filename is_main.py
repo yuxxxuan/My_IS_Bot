@@ -3,6 +3,7 @@
 
 import argparse
 import time
+import os
 from itertools import count
 from constants import POLICY_CONTROL_PERIOD
 from episode_storage import EpisodeWriter
@@ -28,6 +29,7 @@ def run_episode(env, policy, writer=None):
     print('重置环境...')
     env.reset()
     print('环境已重置')
+    time.sleep(1.0)  # 添加延迟确保初始化完成
 
     # 等待用户准备开始
     print('准备好后，请按"开始记录"')
@@ -83,6 +85,10 @@ def main(args):
     # 创建环境
     if args.sim:
         from is_mujoco_env import KinovaMujocoEnv
+        print(f"正在创建模拟环境，模型路径: models/kinova_gen3/scene_2f85.xml")
+        # 检查模型文件是否存在
+        if not os.path.exists('models/kinova_gen3/scene_2f85.xml'):
+            print(f"警告: 模型文件不存在，请确保路径正确")
         env = KinovaMujocoEnv(show_images=args.show_images)
     else:
         from is_real_env import KinovaRealEnv, HAS_KINOVA_API
@@ -91,13 +97,20 @@ def main(args):
         env = KinovaRealEnv()
 
     # 创建策略
+    print("创建遥操作策略...")
     policy = KinovaTeleopPolicy()
+    
+    # 提前初始化策略
+    print("初始化遥操作策略...")
+    policy.reset()
+    print("遥操作策略已初始化")
 
     try:
         while True:
             writer = EpisodeWriter(args.output_dir) if args.save else None
             run_episode(env, policy, writer)
     finally:
+        print("关闭环境...")
         env.close()
 
 if __name__ == '__main__':
