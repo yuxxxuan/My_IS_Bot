@@ -226,12 +226,11 @@ class MujocoSim:
 from mujoco_env import MujocoEnv
 class KinovaMujocoEnv(MujocoEnv):
     def __init__(self, render_images=True, show_viewer=True, show_images=False):
-        # 使用Kinova Gen3的模型路径
-        model_path = 'models/kinova_gen3/scene_2f85.xml'
-        super().__init__(model_path=model_path, 
-                         render_images=render_images,
-                         show_viewer=show_viewer, 
-                         show_images=show_images)
+        self.mjcf_path = 'models/kinova_gen3/scene_2f85.xml'
+        self.render_images = render_images
+        self.show_viewer = show_viewer
+        self.show_images = show_images
+        self.command_queue = mp.Queue(1)
         
         # 共享内存状态
         self.shm_state = ShmState()
