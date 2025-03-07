@@ -246,6 +246,8 @@ class KinovaMujocoEnv(MujocoEnv):
         self.show_images = show_images
         self.command_queue = mp.Queue(1)
         
+        self.hold_position = True 
+        
         # 共享内存状态
         self.shm_state = ShmState()
         
