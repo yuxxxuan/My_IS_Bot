@@ -4,6 +4,7 @@
 import time
 import numpy as np
 from constants import POLICY_CONTROL_PERIOD
+from arm_env_base import ArmEnvBase
 
 # 条件导入，只在使用真实环境时才导入
 try:
@@ -14,7 +15,7 @@ except ImportError:
     HAS_KINOVA_API = False
     print("警告: 未找到Kinova API，只能使用模拟环境")
 
-class KinovaRealEnv:
+class KinovaRealEnv(ArmEnvBase):
     def __init__(self):
         self.arm = TorqueControlledArm()
         self.arm.init_cyclic(self._control_callback)
@@ -44,7 +45,9 @@ class KinovaRealEnv:
         return obs
     
     def step(self, action):
-        self._control_callback(action)
+        # 使用基类的处理方法过滤掉底盘相关动作
+        arm_action = self.process_arm_action(action)
+        self._control_callback(arm_action)
         return self.get_obs()
     
     def close(self):

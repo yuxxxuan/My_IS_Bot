@@ -13,6 +13,7 @@ import numpy as np
 from ruckig import InputParameter, OutputParameter, Result, Ruckig
 from constants import POLICY_CONTROL_PERIOD
 from ik_solver import IKSolver
+from arm_env_base import ArmEnvBase
 
 # 复用原有的共享内存状态类
 class ShmState:
@@ -111,11 +112,15 @@ class ArmController:
         self.otg_inp.max_velocity = 4 * [math.radians(80)] + 3 * [math.radians(140)]
         self.otg_inp.max_acceleration = 4 * [math.radians(240)] + 3 * [math.radians(450)]
         self.otg_res = None
+        
+        # 确保启动时有稳定控制
+        self.hold_position = True
     
     def reset(self):
         # 初始化机械臂为"收回"配置
         self.qpos[:] = np.array([0.0, -0.34906585, 3.14159265, -2.54818071, 0.0, -0.87266463, 1.57079633])
         self.ctrl[:] = self.qpos
+        self.qpos_gripper[:] = 0.0
         self.ctrl_gripper[:] = 0.0
         
         # 初始化OTG
@@ -124,6 +129,9 @@ class ArmController:
         self.otg_inp.current_velocity = self.qvel
         self.otg_inp.target_position = self.qpos
         self.otg_res = Result.Finished
+        
+        # 启用位置保持
+        self.hold_position = True
     
     def control_callback(self, command):
         if command is not None:
@@ -137,6 +145,7 @@ class ArmController:
                 # 设置目标机械臂qpos
                 self.otg_inp.target_position = qpos
                 self.otg_res = Result.Working
+                self.hold_position = False  # 收到命令时禁用位置保持
             
             if 'gripper_pos' in command:
                 # 设置目标夹爪位置
@@ -144,8 +153,10 @@ class ArmController:
         
         # 如果命令流中断，保持当前姿态
         if time.time() - self.last_command_time > 2.5 * POLICY_CONTROL_PERIOD:
-            self.otg_inp.target_position = self.otg_out.new_position
-            self.otg_res = Result.Working
+            if not self.hold_position:
+                self.otg_inp.target_position = self.otg_out.new_position
+                self.otg_res = Result.Working
+                self.hold_position = True  # 启用位置保持
         
         # 更新OTG
         if self.otg_res == Result.Working:
@@ -237,8 +248,7 @@ class MujocoSim:
                 time.sleep(self.model.opt.timestep)
 
 # 主环境类
-from mujoco_env import MujocoEnv
-class KinovaMujocoEnv(MujocoEnv):
+class KinovaMujocoEnv(ArmEnvBase):
     def __init__(self, render_images=True, show_viewer=True, show_images=False):
         self.mjcf_path = 'models/kinova_gen3/scene_2f85.xml'
         self.render_images = render_images
@@ -331,8 +341,10 @@ class KinovaMujocoEnv(MujocoEnv):
         return obs
     
     def step(self, action):
-        # Note: We intentionally do not return obs here to prevent the policy from using outdated data
-        self.command_queue.put(action)
+        # 使用基类的处理方法过滤掉底盘相关动作
+        arm_action = self.process_arm_action(action)
+        # 调用原有的step方法
+        self.command_queue.put(arm_action)
 
     def close(self):
         self.shm_state.close()

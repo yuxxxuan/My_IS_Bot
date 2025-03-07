@@ -73,7 +73,7 @@ class KinovaTeleopController:
 
         # 遥操作目标
         self.targets_initialized = False
-        self.arm_target_pos = None
+        self.arm_target_pos = None  # 改为None，等待从观测中获取初始值
         self.arm_target_rot = None
         self.gripper_target_pos = None
 
@@ -85,6 +85,9 @@ class KinovaTeleopController:
         self.arm_ref_pos = None
         self.arm_ref_rot = None
         self.gripper_ref_pos = None
+        
+        # 添加初始化标志，确保稳定控制
+        self.sent_initial_action = False
 
     def process_message(self, data):
         """处理来自WebXR客户端的消息"""
@@ -141,9 +144,17 @@ class KinovaTeleopController:
                 self.gripper_target_pos = obs['gripper_pos'].copy()
                 self.targets_initialized = True
                 print("目标位置已初始化")
+                
+                # 立即生成初始动作，确保机械臂稳定
+                self.sent_initial_action = True
+                action = {}
+                action['arm_pos'] = self.arm_target_pos.copy()
+                action['arm_quat'] = self.arm_target_rot.as_quat()
+                action['gripper_pos'] = self.gripper_target_pos.copy()
+                return action
             return None
 
-        # 生成动作
+        # 生成动作 - 即使没有遥控器输入也保持稳定
         action = {}
         action['arm_pos'] = self.arm_target_pos.copy()
         action['arm_quat'] = self.arm_target_rot.as_quat()
