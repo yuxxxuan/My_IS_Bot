@@ -4,9 +4,10 @@
 import argparse
 import time
 from itertools import count
-from constants import POLICY_CONTROL_PERIOD
-from episode_storage import EpisodeWriter
-from policies import TeleopPolicy, RemotePolicy
+from constants import POLICY_CONTROL_PERIOD  # 从常量模块导入控制周期
+from episode_storage import EpisodeWriter    # 数据存储模块
+from policies import TeleopPolicy, RemotePolicy  # 策略控制模块
+import numpy as np
 
 def should_save_episode(writer):
     if len(writer) == 0:
@@ -44,6 +45,7 @@ def run_episode(env, policy, writer=None):
 
         # Get latest observation
         obs = env.get_obs()
+        # print('[main-run_episode]: env.get_obs() Get!')
 
         # Get action
         action = policy.step(obs)
@@ -82,27 +84,29 @@ def run_episode(env, policy, writer=None):
 def main(args):
     # Create env
     if args.sim:
-        from mujoco_env import MujocoEnv
-        if args.teleop:
+        from mujoco_env import MujocoEnv # 动态导入仿真环境
+        if args.teleop :
             env = MujocoEnv(show_images=True)
         else:
             env = MujocoEnv()
-    else:
+    else: # 导入真实环境配置
         from real_env import RealEnv
         env = RealEnv()
 
-    # Create policy
+    # Create policy / 创建远程连接策略
     if args.teleop:
-        policy = TeleopPolicy()
+        policy = TeleopPolicy() # 创建遥控操作策略
     else:
-        policy = RemotePolicy()
+        policy = RemotePolicy() # 创建远程连接策略？ 为了训练？
 
     try:
-        while True:
+        while True: # 持续运行循环
             writer = EpisodeWriter(args.output_dir) if args.save else None
+            
+            # 循环运行在这里!
             run_episode(env, policy, writer)
     finally:
-        env.close()
+        env.close() # 关闭环境
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

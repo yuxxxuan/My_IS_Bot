@@ -1,39 +1,30 @@
-Thu Mar  6 16:53:55 2025
+Mon Mar 17 12:27:40 2025
 ERROR: Python exception raised
 
-Thu Mar  6 16:55:03 2025
+Mon Mar 17 12:27:58 2025
 ERROR: Python exception raised
 
-Thu Mar  6 16:58:12 2025
-ERROR: could not initialize GLFW
-
-Thu Mar  6 16:58:30 2025
+Tue Mar 18 13:09:49 2025
 ERROR: Python exception raised
 
-Thu Mar  6 17:00:24 2025
+Tue Mar 18 13:10:03 2025
 ERROR: Python exception raised
 
-Thu Mar  6 17:11:37 2025
-ERROR: could not initialize GLFW
-
-Thu Mar  6 17:12:16 2025
+Tue Mar 18 13:10:36 2025
 ERROR: Python exception raised
 
-Thu Mar  6 17:26:14 2025
+Tue Mar 18 13:11:25 2025
 ERROR: Python exception raised
 
-Fri Mar  7 15:31:26 2025
-ERROR: gladLoadGL error
+Tue Mar 18 13:11:49 2025
+ERROR: Python exception raised
 
-Fri Mar  7 15:34:31 2025
-ERROR: gladLoadGL error
+Tue Mar 18 13:12:11 2025
+ERROR: Python exception raised
 
-Fri Mar  7 15:35:39 2025
-ERROR: gladLoadGL error
+Tue Mar 18 15:34:15 2025
+ERROR: Python exception raised
 
-Fri Mar  7 15:37:09 2025
-ERROR: gladLoadGL error
-
-Fri Mar  7 15:39:51 2025
-ERROR: gladLoadGL error
+Tue Mar 18 15:35:29 2025
+ERROR: Python exception raised
 

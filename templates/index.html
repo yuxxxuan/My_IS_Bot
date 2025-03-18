@@ -38,13 +38,36 @@
         margin: 0;
         touch-action: none;
       }
+
+      #image-container {
+        position: absolute;
+        top: 15px; /* 距离顶部10像素 */
+        right: 10px; /* 距离右侧10像素 */
+        z-index: 1; /* 确保图片在其他元素之上 */
+      }
+
+      #image-container img {
+        width: 120px; /* 设置图片宽度 */
+        height: 60px; /* 高度自动调整以保持比例 */
+        object-fit: contain; /* 确保图片保持比例 */
+      }   
     </style>
   </head>
+  
   <body>
     <div id="overlay">
-      <header></header>
+      <header>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          
+          <div id="image-container">
+            <img src="/static/images/logo.png" alt="Logo">
+          </div>
+          <div id="xr-button-container"></div> <!-- 用于放置 WebXR 按钮 -->
+        </div>
+      </header>
       <p><span id="info"></span></p>
     </div>
+
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
     <script type="text/javascript">
       // Random device ID
@@ -82,13 +105,14 @@
     <script type="module">
       import { WebXRButton } from '/static/js/webxr-button.js';
 
-      // XR globals
+      // XR globals 按键功能？
       let xrButton = null;
       let xrRefSpace = null;
 
       // WebGL scene globals
       let gl = null;
-
+      // 初始化XR，这里实现了button的初始化，并添加了具体的内容和回调函数
+      // 当用户点击按钮时，会调用 onRequestSession 函数
       function initXR() {
         xrButton = new WebXRButton({
           onRequestSession,
@@ -99,7 +123,9 @@
           textPrepareExitXRTitle: 'End episode',
           textExitXRTitle: 'Reset env',
         });
-        document.querySelector('header').appendChild(xrButton.domElement);
+        
+        // 将按钮添加到新的容器中
+        document.getElementById('xr-button-container').appendChild(xrButton.domElement);
 
         if (navigator.xr) {
           navigator.xr.isSessionSupported('immersive-ar').then((supported) => {
@@ -157,19 +183,28 @@
       }
 
       // Touch event handling
+      // 触摸事件处理
       let touchId; let touchStartY; let touchDeltaY; let teleopMode;
       function addCanvasListeners(canvas) {
         function handleTouch(touch) {
+          // 计算触摸位置相对于触摸起始位置的偏移量
           touchDeltaY = (touchStartY - touch.clientY) / (0.2 * window.innerHeight);
+          // 限制偏移量在 -1 到 1 之间
           touchDeltaY = Math.min(1, Math.max(-1, touchDeltaY));
         }
 
         canvas.addEventListener('touchstart', (event) => {
           if (touchId === undefined) {
+            // 获取第一个触摸点的标识符
             const touch = event.changedTouches[0];
             touchId = touch.identifier;
+            // 记录触摸起始位置的Y坐标
             touchStartY = touch.clientY;
+            // 根据触摸位置判断控制模式
+            // 如果触摸位置在屏幕的 90% 宽度以内，则设置 teleopMode 为 'arm'，表示用户想要控制手臂。
+            // 否则，设置 teleopMode 为 'base'，表示用户想要控制基座。
             teleopMode = touch.clientX < 0.9 * window.innerWidth ? 'arm' : 'base';
+            // 处理触摸事件
             handleTouch(touch);
           }
         });
@@ -177,6 +212,7 @@
         canvas.addEventListener('touchmove', (event) => {
           for (const touch of event.changedTouches) {
             if (touchId === touch.identifier) {
+              // 处理触摸事件
               handleTouch(touch);
             }
           }
@@ -194,9 +230,11 @@
       }
 
       function onXRFrame(t, frame) {
+        // 每一帧请求调用 onXRFrame
         frame.session.requestAnimationFrame(onXRFrame);
 
         // Visualize status of touch control
+        // 可视化触摸控制状态
         const r = (touchId !== undefined && teleopMode === 'base') ? 0.25 : 0;
         const b = (touchId !== undefined && teleopMode === 'arm')
           ? (Math.abs(touchDeltaY) === 1 ? 1 : 0.25 + 0.25 * touchDeltaY)

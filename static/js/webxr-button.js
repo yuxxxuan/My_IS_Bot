@@ -339,10 +339,12 @@ export class WebXRButton {
     this.isPreparingToExit = false;
 
     // Pass in your own domElement if you really dont want to use ours
+    // 如果不想使用默认的domElement，可以传入自己的domElement
     this.domElement = options.domElement || createDefaultView(options);
     this.__defaultDisplayStyle = this.domElement.style.display || 'initial';
 
     // Bind button click events to __onClick
+    // 绑定按钮点击事件到 __onXRButtonClick
     this.domElement.addEventListener('click', ()=> this.__onXRButtonClick());
 
     this.__forceDisabled = false;
