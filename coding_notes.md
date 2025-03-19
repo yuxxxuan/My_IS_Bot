@@ -237,3 +237,11 @@ table:
 2. [MujocoEnv-get_obs] arm_pos [0.18100368 0.21177663 1.61031325] arm_quat [-0.80375937 -0.21944521  0.21680645  0.50873337]
 
 [TeleopController-process_message] 手机WebXR输入 pos: [2.79588331e-02 3.45646255e-02 9.91384746e-05], rot: <scipy.spatial.transform._rotation.Rotation object at 0x71dd2da44030>
+
+### 2025-03-19
+
+要求的是 pip install protobuf==3.20.0
+
+这尼玛python>3.10 升级的 protobuf== 6.30.1
+
+会不会是一个隐患？
