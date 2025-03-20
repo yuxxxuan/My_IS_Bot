@@ -28,7 +28,7 @@ class TorqueControlledArm:
     def __init__(self):
         # Check whether arm is connected
         try:
-            subprocess.run(['ping', '-c', '1',  '192.168.1.10'], check=True, timeout=1, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.run(['ping', '-c', '1',  '192.168.8.10'], check=True, timeout=1, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         except subprocess.TimeoutExpired as e:
             raise Exception('Could not communicate with arm') from e
 
@@ -377,7 +377,7 @@ class TorqueControlledArm:
         return pos, quat
 
 class DeviceConnection:
-    IP_ADDRESS = '192.168.1.10'
+    IP_ADDRESS = '192.168.8.10'
     TCP_PORT = 10000
     UDP_PORT = 10001
 
