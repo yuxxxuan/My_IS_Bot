@@ -100,6 +100,9 @@
     <texture name="light-gray-floor-tile" type="2d" file="textures/light-gray-floor-tile.png"/>
     <material name="light-gray-floor-tile-mat" texture="light-gray-floor-tile" />
 
+    <texture name="ldark-wood" type="2d" file="textures/dark-wood.png"/>
+    <material name="ldark-wood-mat" texture="ldark-wood" />
+
   </asset>
 
   <worldbody>

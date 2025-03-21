@@ -33,7 +33,19 @@ def replay_episode(env, episode_dir, show_images=False, execute_obs=False):
     print(f'Loaded episode from {episode_dir}')
 
     start_time = time.time()
+    current_segment = 0
+    
     for step_idx, (obs, action) in enumerate(zip(reader.observations, reader.actions)):
+        # 计算经过的时间
+        elapsed_time = time.time() - start_time
+        
+        # 检查是否需要切换时间段
+        if elapsed_time >= (current_segment + 1) * 3:
+            current_segment += 1
+            env.randomize_environment()
+            print(f"Switching environment at {elapsed_time:.1f}s (Segment {current_segment})")
+        
+        
         # 强制执行所需的控制频率
         step_end_time = start_time + step_idx * POLICY_CONTROL_PERIOD
         while time.time() < step_end_time:

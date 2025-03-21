@@ -18,6 +18,8 @@ from ruckig import InputParameter, OutputParameter, Result, Ruckig
 from scipy.spatial.transform import Rotation as R
 from constants import POLICY_CONTROL_PERIOD
 from ik_solver import IKSolver
+import random
+from mujoco import mjtObj  
 
 # 共享内存状态类，用于存储机器人的状态信息
 class ShmState:
@@ -289,6 +291,20 @@ class MujocoSim:
         # self.base_height = self.model.body('gen3/base_link').pos[2]  # 基座高度 
         # self.base_rot_axis = np.array([0.0, 0.0, 1.0])  # 基座旋转轴
         # self.base_quat_inv = np.empty(4)  # 基座四元数的逆
+        
+        ### random env
+        # 定义材质名称和纹理选项
+        self.floor_material_name = "light-gray-floor-tile-mat"  # XML中地板的材质名称
+        self.table_material_name = "light-wood-mat"  # XML中桌面板的材质名称
+        
+        # 可选纹理名称列表（根据XML中的texture定义）
+        self.floor_textures = ["light-gray-floor-tile", "ldark-wood", "light-wood"]
+        self.table_textures = ["light-wood", "light-gray-floor-tile", "ldark-wood"]
+
+        # 光源参数范围
+        self.ambient_range = (0.1, 0.3)
+        self.diffuse_range = (0.5, 0.8)
+        self.specular_range = (0.1, 0.2)
 
         # Reset the environment
         self.reset()  # 重置环境
@@ -296,6 +312,50 @@ class MujocoSim:
         # Set control callback -> 设置控制回调
         # 为set_mjcb_control 设定注册控制回调函数 -> mujoco 每步仿真，均会调用这个函数，以处理控制逻辑
         mujoco.set_mjcb_control(self.control_callback) 
+
+    def randomize_materials(self):
+        model = self.model
+        data = self.data
+
+        # 获取材质ID
+        floor_mat_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_MATERIAL, self.floor_material_name)
+        table_mat_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_MATERIAL, self.table_material_name)
+
+        # 随机选择纹理名称
+        selected_floor_texture = random.choice(self.floor_textures)
+        selected_table_texture = random.choice(self.table_textures)
+
+        # 获取纹理ID
+        floor_tex_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_TEXTURE, selected_floor_texture)
+        table_tex_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_TEXTURE, selected_table_texture)
+        print(f"floor_tex_id: {floor_tex_id}, table_tex_id: {table_tex_id}")
+        print(f"floor_mat_id: {floor_mat_id}, table_mat_id: {table_mat_id}")
+        
+        # 设置材质的纹理ID
+        model.mat[floor_mat_id].texid = floor_tex_id
+        model.mat[table_mat_id].texid = table_tex_id
+
+    def randomize_lighting(self):
+        """随机调整所有光源的参数"""
+        model = self.model
+        for light_id in range(model.nlight):
+            light = model.light(light_id)
+            # 随机调整环境光、漫反射、镜面反射
+            light.ambient = np.random.uniform(*self.ambient_range, 3)
+            light.diffuse = np.random.uniform(*self.diffuse_range, 3)
+            light.specular = np.random.uniform(*self.specular_range, 3)
+
+    def randomize_environment(self):
+        """触发环境随机化并更新仿真状态"""
+        # self.randomize_materials()
+        self.randomize_lighting()
+        
+        # 添加以下两行：重新编译材质和灯光
+        mujoco.mjv_makeObjects(self.model, self.data)
+        mujoco.mjv_makeLights(self.model, self.data)
+        
+        # 更新仿真状态以应用更改
+        mujoco.mj_forward(self.model, self.data)
 
     def reset(self):
         # only gen3 1
@@ -319,9 +379,14 @@ class MujocoSim:
         # tag:mb
         # 检查命令队列是否有新命令
         command = None if self.command_queue.empty() else self.command_queue.get()  # 获取命令
-        if command == 'reset':
-            self.reset()  # 如果命令是重置，重置仿真
-
+        # if command == 'reset':
+        #     self.reset()  # 如果命令是重置，重置仿真
+            
+        if command == 'randomize':
+            self.randomize_environment()
+        elif command == 'reset':
+            self.reset()
+            
         # Control callbacks
         # 调用控制器的回调函数以处理命令
         # self.base_controller.control_callback(command)  # 处理基座控制
@@ -392,7 +457,7 @@ class MujocoEnv:
         self.show_viewer = show_viewer  # 是否显示查看器
         self.show_images = show_images  # 是否显示 camera image
         # 创建多线程命令队列 -> 用于在物理循环中接收命令
-        self.command_queue = mp.Queue(1)  
+        self.command_queue = mp.Queue(maxsize=10)  
 
         # Shared memory for state observations
         self.shm_state = ShmState()  # 初始化共享状态
@@ -419,7 +484,10 @@ class MujocoEnv:
             # target=self.visualizer_loop -> 指定可视化循环的目标函数
             # daemon=True -> 设置为守护进程，当主进程结束时，子进程也会自动结束
             mp.Process(target=self.visualizer_loop, daemon=True).start()  # 启动可视化循环
-        
+    
+    def randomize_environment(self):
+        """通过命令队列发送随机化指令"""
+        self.command_queue.put('randomize')
     def physics_loop(self):
         # Create sim
         # 启动 MuJoCoSim 仿真
