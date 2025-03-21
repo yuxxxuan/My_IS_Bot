@@ -11,21 +11,35 @@ from episode_storage import EpisodeReader
 from mujoco_env import MujocoEnv
 
 def replay_episode(env, episode_dir, show_images=False, execute_obs=False):
-    # Reset env
+    """
+    播放指定目录中的回合数据。
+
+    参数:
+    env -- Mujoco环境实例
+    episode_dir -- 回合数据目录
+    show_images -- 是否显示图像观察 (默认: False)
+    execute_obs -- 是否执行观察 (默认: False)
+
+    返回:
+    无
+    异常:
+    如果无法加载回合数据，将引发 IOError。
+    """
+    # 重置环境
     env.reset()
 
-    # Load episode data
+    # 加载回合数据
     reader = EpisodeReader(episode_dir)
     print(f'Loaded episode from {episode_dir}')
 
     start_time = time.time()
     for step_idx, (obs, action) in enumerate(zip(reader.observations, reader.actions)):
-        # Enforce desired control freq
+        # 强制执行所需的控制频率
         step_end_time = start_time + step_idx * POLICY_CONTROL_PERIOD
         while time.time() < step_end_time:
             time.sleep(0.0001)
 
-        # Show image observations
+        # 显示图像观察
         if show_images:
             window_idx = 0
             for k, v in obs.items():
@@ -35,14 +49,20 @@ def replay_episode(env, episode_dir, show_images=False, execute_obs=False):
                     window_idx += 1
             cv.waitKey(1)
 
-        # Execute in action in env
+        # 在环境中执行动作
         if execute_obs:
             env.step(obs)
         else:
             env.step(action)
 
 def main(args):
-    # Create env
+    """
+    主函数，解析命令行参数并启动回合重放。
+
+    参数:
+    args -- 命令行参数对象
+    """
+    # 创建环境
     if args.sim:
         env = MujocoEnv(render_images=False)
     else:

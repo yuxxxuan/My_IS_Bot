@@ -92,11 +92,22 @@
     <mesh class="2f85" file="2f85/pad.stl"/>
     <mesh class="2f85" file="2f85/silicone_pad.stl"/>
     <mesh class="2f85" file="2f85/spring_link.stl"/>
+
+    <!-- Textures -->
+    <texture name="light-wood" type="2d" file="textures/light-wood.png"/>
+    <material name="light-wood-mat" texture="light-wood" />
+
+    <texture name="light-gray-floor-tile" type="2d" file="textures/light-gray-floor-tile.png"/>
+    <material name="light-gray-floor-tile-mat" texture="light-gray-floor-tile" />
+
   </asset>
 
   <worldbody>
     <light pos="0 0 1.5" directional="true"/>
-    <geom name="floor" pos = "0 0 -0.81" size="0 0 0.05" type="plane" material="groundplane"/>
+    <!-- <light name="main_light" pos="0 0 3" dir="0 0 -1" diffuse=".8 .8 .8" specular=".1 .1 .1"/> -->
+    <light name="side_light" pos="-2 2 2" dir="1 -1 -1" diffuse=".2 .2 .2"/>
+
+    <geom name="floor" pos = "0 0 -0.81" size="0 0 0.05" type="plane" material="light-gray-floor-tile-mat"/>
 
     <geom type="cylinder" size="0.002 0.05" pos="0 0 0" quat="0.7071 0 0.7071 0" rgba="1 0 0 0.7"/>  <!-- X轴（红色） -->
     <geom type="cylinder" size="0.002 0.05" pos="0 0 0" quat="0.7071 -0.7071 0 0" rgba="0 1 0 0.7"/>  <!-- Y轴（绿色） -->
@@ -104,7 +115,7 @@
 
     <!-- Table -->
     <body name="Table" pos="0.8 0 -0.01">
-        <geom size="0.9 0.4 0.02" type="box" condim="4" friction="0.25 0.005 0.0001" solref="0.01 1" solimp="0.95 0.95 0.01 0.5 2" rgba="0.8 0.5 0.3 1"/>
+        <geom size="0.9 0.4 0.02" type="box" condim="4" friction="0.25 0.005 0.0001" solref="0.01 1" solimp="0.95 0.95 0.01 0.5 2" material="light-wood-mat"/>
         <geom size="0.0135 0.39" pos="-0.875 -0.375 -0.39" type="cylinder" rgba="0.8 0.5 0.3 1"/>
         <geom size="0.0135 0.39" pos="-0.875 0.375 -0.39" type="cylinder" rgba="0.8 0.5 0.3 1"/>
         <geom size="0.0135 0.39" pos="0.875 -0.375 -0.39" type="cylinder" rgba="0.8 0.5 0.3 1"/>
