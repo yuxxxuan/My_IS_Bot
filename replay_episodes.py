@@ -1,6 +1,3 @@
-# Author: Jimmy Wu
-# Date: October 2024
-
 import argparse
 import time
 from itertools import count
@@ -10,6 +7,7 @@ from constants import POLICY_CONTROL_PERIOD
 from episode_storage import EpisodeReader
 from mujoco_env import MujocoEnv
 
+time_per_segment = 0.3
 def replay_episode(env, episode_dir, show_images=False, execute_obs=False):
     """
     播放指定目录中的回合数据。
@@ -40,7 +38,7 @@ def replay_episode(env, episode_dir, show_images=False, execute_obs=False):
         elapsed_time = time.time() - start_time
         
         # 检查是否需要切换时间段
-        if elapsed_time >= (current_segment + 1) * 3:
+        if elapsed_time >= (current_segment + 1) * time_per_segment:
             current_segment += 1
             env.randomize_environment()
             print(f"Switching environment at {elapsed_time:.1f}s (Segment {current_segment})")

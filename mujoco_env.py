@@ -10,6 +10,7 @@ import multiprocessing as mp
 import time
 from multiprocessing import shared_memory
 from threading import Thread
+import threading
 import cv2 as cv
 import mujoco
 import mujoco.viewer
@@ -192,7 +193,7 @@ class ArmController:
         self.otg_inp.target_position = self.qpos  # 目标位置
         self.otg_res = Result.Finished  # 轨迹生成状态
 
-    def control_callback(self, command):
+    def control_callback(self, command, print_info=True):
         # command -> dict -> 包含arm_pos, arm_quat, gripper_pos
         if command is not None:
             self.last_command_time = time.time()  # 更新命令时间
@@ -210,12 +211,13 @@ class ArmController:
                 qpos = self.qpos + np.mod((qpos - self.qpos) + np.pi, 2 * np.pi) - np.pi 
 
                 # print(f"[ArmController-control_callback] [IK]\nTarget arm_pos: {command['arm_pos']} arm_quat: {command['arm_quat']} \n Finished Solve [关节角度] {qpos}")
-                print(f"---------------------------------\n"
-                      f"[ArmController-control_callback] [IK]\n"
-                      f"Target arm_pos: {command['arm_pos']}\n"
-                      f"Target arm_quat: {command['arm_quat']}\n"
-                      f"IK Solved [关节角度]: {qpos}\n"
-                      f"----------------------------------")
+                # if print_info:
+                #     print(f"---------------------------------\n"
+                #         f"[ArmController-control_callback] [IK]\n"
+                #         f"Target arm_pos: {command['arm_pos']}\n"
+                #         f"Target arm_quat: {command['arm_quat']}\n"
+                #         f"IK Solved [关节角度]: {qpos}\n"
+                #         f"----------------------------------")
                 
                 # Set target arm qpos -> 给到Ruckig(轨迹生成)
                 self.otg_inp.target_position = qpos  # 设置目标手臂位置
@@ -293,18 +295,24 @@ class MujocoSim:
         # self.base_quat_inv = np.empty(4)  # 基座四元数的逆
         
         ### random env
-        # 定义材质名称和纹理选项
-        self.floor_material_name = "light-gray-floor-tile-mat"  # XML中地板的材质名称
-        self.table_material_name = "light-wood-mat"  # XML中桌面板的材质名称
+
+        # 新增材质ID缓存
+        from random_env_constant import CANDIDATE_MATERIAL_NAMES
+        self.candidate_material_ids = [
+            mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_MATERIAL, name)
+            for name in CANDIDATE_MATERIAL_NAMES
+        ]
         
-        # 可选纹理名称列表（根据XML中的texture定义）
-        self.floor_textures = ["light-gray-floor-tile", "ldark-wood", "light-wood"]
-        self.table_textures = ["light-wood", "light-gray-floor-tile", "ldark-wood"]
+        # 断言检查确保所有材质都存在
+        for mat_id in self.candidate_material_ids:
+            assert mat_id != -1, f"未找到材质ID：{CANDIDATE_MATERIAL_NAMES[mat_id]}"
 
         # 光源参数范围
         self.ambient_range = (0.1, 0.3)
         self.diffuse_range = (0.5, 0.8)
         self.specular_range = (0.1, 0.2)
+        
+        self.randomize_lock = threading.Lock()  # 创建random domain 锁
 
         # Reset the environment
         self.reset()  # 重置环境
@@ -314,26 +322,22 @@ class MujocoSim:
         mujoco.set_mjcb_control(self.control_callback) 
 
     def randomize_materials(self):
-        model = self.model
-        data = self.data
+        floor_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_GEOM, 'floor')
+        table_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_GEOM, 'table_top')
+        # 验证geom ID有效性
+        assert floor_id != -1, "地板geom未找到"
+        assert table_id != -1, "桌子geom未找到"
+        print(f"floor_id: {floor_id}, table_id: {table_id}")
 
-        # 获取材质ID
-        floor_mat_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_MATERIAL, self.floor_material_name)
-        table_mat_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_MATERIAL, self.table_material_name)
-
-        # 随机选择纹理名称
-        selected_floor_texture = random.choice(self.floor_textures)
-        selected_table_texture = random.choice(self.table_textures)
-
-        # 获取纹理ID
-        floor_tex_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_TEXTURE, selected_floor_texture)
-        table_tex_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_TEXTURE, selected_table_texture)
-        print(f"floor_tex_id: {floor_tex_id}, table_tex_id: {table_tex_id}")
-        print(f"floor_mat_id: {floor_mat_id}, table_mat_id: {table_mat_id}")
+        # candidate_mats = [
+        #     mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_MATERIAL, 'light-wood-mat'),
+        #     mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_MATERIAL, 'light-gray-floor-tile-mat'),
+        #     mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_MATERIAL, 'dark-wood-mat')
+        # ]
         
-        # 设置材质的纹理ID
-        model.mat[floor_mat_id].texid = floor_tex_id
-        model.mat[table_mat_id].texid = table_tex_id
+        # 随机选择材质
+        self.model.geom_matid[floor_id] = random.choice(self.candidate_material_ids)
+        self.model.geom_matid[table_id] = random.choice(self.candidate_material_ids)
 
     def randomize_lighting(self):
         """随机调整所有光源的参数"""
@@ -347,15 +351,13 @@ class MujocoSim:
 
     def randomize_environment(self):
         """触发环境随机化并更新仿真状态"""
-        # self.randomize_materials()
-        self.randomize_lighting()
-        
-        # 添加以下两行：重新编译材质和灯光
-        mujoco.mjv_makeObjects(self.model, self.data)
-        mujoco.mjv_makeLights(self.model, self.data)
-        
-        # 更新仿真状态以应用更改
-        mujoco.mj_forward(self.model, self.data)
+        with self.randomize_lock:
+            self.randomize_materials()
+            # self.randomize_lighting()
+            
+
+            # 更新仿真状态以应用更改
+            mujoco.mj_forward(self.model, self.data)
 
     def reset(self):
         # only gen3 1

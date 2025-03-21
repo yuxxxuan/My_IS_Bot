@@ -1,5 +1,8 @@
 <mujoco model="IS Room">
+
+
   <compiler angle="radian" meshdir="../assets"/>
+
 
   <option integrator="implicitfast"/>
   <option cone="elliptic" impratio="10"/>
@@ -64,6 +67,8 @@
 
     <site size="0.001" rgba="0.5 0.5 0.5 0.3" group="4"/>
   </default>
+    
+  <include file="textures/textures.xml"/>
 
   <asset>
     <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
@@ -94,15 +99,15 @@
     <mesh class="2f85" file="2f85/spring_link.stl"/>
 
     <!-- Textures -->
-    <texture name="light-wood" type="2d" file="textures/light-wood.png"/>
+    <!-- <texture name="light-wood" type="2d" file="textures/light-wood.png"/>
     <material name="light-wood-mat" texture="light-wood" />
 
     <texture name="light-gray-floor-tile" type="2d" file="textures/light-gray-floor-tile.png"/>
     <material name="light-gray-floor-tile-mat" texture="light-gray-floor-tile" />
 
-    <texture name="ldark-wood" type="2d" file="textures/dark-wood.png"/>
-    <material name="ldark-wood-mat" texture="ldark-wood" />
-
+    <texture name="dark-wood" type="2d" file="textures/dark-wood.png"/>
+    <material name="dark-wood-mat" texture="dark-wood-mat" /> -->
+    
   </asset>
 
   <worldbody>
@@ -117,12 +122,12 @@
     <geom type="cylinder" size="0.002 0.05" pos="0 0 0" rgba="0 0 1 0.7"/>  <!-- Z轴（蓝色） -->
 
     <!-- Table -->
-    <body name="Table" pos="0.8 0 -0.01">
-        <geom size="0.9 0.4 0.02" type="box" condim="4" friction="0.25 0.005 0.0001" solref="0.01 1" solimp="0.95 0.95 0.01 0.5 2" material="light-wood-mat"/>
-        <geom size="0.0135 0.39" pos="-0.875 -0.375 -0.39" type="cylinder" rgba="0.8 0.5 0.3 1"/>
-        <geom size="0.0135 0.39" pos="-0.875 0.375 -0.39" type="cylinder" rgba="0.8 0.5 0.3 1"/>
-        <geom size="0.0135 0.39" pos="0.875 -0.375 -0.39" type="cylinder" rgba="0.8 0.5 0.3 1"/>
-        <geom size="0.0135 0.39" pos="0.875 0.375 -0.39" type="cylinder" rgba="0.8 0.5 0.3 1"/>
+    <body name="table" pos="0.8 0 -0.01">
+        <geom name="table_top" size="0.9 0.4 0.02" type="box" condim="4" friction="0.25 0.005 0.0001" solref="0.01 1" solimp="0.95 0.95 0.01 0.5 2" material="dark-wood-mat"/>
+        <geom size="0.0135 0.39" pos="-0.875 -0.375 -0.39" type="cylinder" rgba="0 0 0 1"/>  <!-- 左前腿 -->
+        <geom size="0.0135 0.39" pos="-0.875 0.375 -0.39" type="cylinder" rgba="0 0 0 1"/>  <!-- 右前腿 -->
+        <geom size="0.0135 0.39" pos="0.875 -0.375 -0.39" type="cylinder" rgba="0 0 0 1"/>  <!-- 左后腿 -->
+        <geom size="0.0135 0.39" pos="0.875 0.375 -0.39" type="cylinder" rgba="0 0 0 1"/>  <!-- 右后腿 -->
     </body>
 
     <!-- gen3 -->

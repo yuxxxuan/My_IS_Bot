@@ -245,3 +245,35 @@ table:
 这尼玛python>3.10 升级的 protobuf== 6.30.1
 
 会不会是一个隐患？
+
+```
+        # 获取材质ID
+        floor_mat_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_MATERIAL, self.floor_material_name)
+        print(f"currentfloor_material_name: {self.floor_material_name}")
+        table_mat_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_MATERIAL, self.table_material_name)
+        print(f"current table_material_name: {self.table_material_name}")
+
+        # 随机选择纹理名称
+        selected_floor_texture = random.choice(self.floor_textures)
+        selected_table_texture = random.choice(self.table_textures)
+        print(f"selected_floor_texture: {selected_floor_texture}, selected_table_texture: {selected_table_texture}")
+
+        # 获取纹理ID
+        floor_tex_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_TEXTURE, selected_floor_texture)
+        table_tex_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_TEXTURE, selected_table_texture)
+        print(f"floor_tex_id: {floor_tex_id}, table_tex_id: {table_tex_id}")
+        print(f"floor_mat_id: {floor_mat_id}, table_mat_id: {table_mat_id}")
+        
+        # 设置材质的纹理ID
+        # 检查纹理ID是否有效
+        if 0 <= floor_tex_id < model.ntex:
+            model.mat[floor_mat_id].texid = floor_tex_id
+        else:
+            print(f"Error: Invalid floor_tex_id: {floor_tex_id}, skipping material update.")
+
+        if 0 <= table_tex_id < model.ntex:
+            model.mat[table_mat_id].texid = table_tex_id
+        else:
+            print(f"Error: Invalid table_tex_id: {table_tex_id}, skipping material update.")
+
+```
