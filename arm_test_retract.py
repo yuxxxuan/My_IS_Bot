@@ -1,5 +1,5 @@
 from kinova import TorqueControlledArm
 
 arm = TorqueControlledArm()
-arm.home()
+arm.retract()
 arm.disconnect()
