@@ -40,7 +40,7 @@ python main.py --teleop --save --output-dir data/demo_0321
 
 ```bash
 # 1
-python replay_episodes.py --sim --input-dir data/demos 
+python replay_episodes.py --sim --input-dir data/demo_0321 
 # 1
 python replay_episodes.py --sim --input-dir data/demos --execute-obs
 
