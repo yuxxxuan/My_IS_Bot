@@ -1,16 +1,8 @@
-<mujoco model="IS Room">
+<mujoco model="gen3_2f85">
   <compiler angle="radian" meshdir="../assets"/>
 
   <option integrator="implicitfast"/>
   <option cone="elliptic" impratio="10"/>
-
-  <statistic center="0.3 0 1" extent="2" meansize="0.05"/>
-
-  <visual>
-    <headlight diffuse="0.6 0.6 0.6" ambient="0.1 0.1 0.1" specular="0 0 0"/>
-    <rgba haze="0.15 0.25 0.35 1"/>
-    <global azimuth="120" elevation="-40"/>
-  </visual>
 
   <default>
     <default class="gen3">
@@ -66,12 +58,6 @@
   </default>
 
   <asset>
-    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
-    <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3"
-      markrgb="0.8 0.8 0.8" width="300" height="300"/>
-    <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2"/>
-
-
     <mesh name="gen3/base_link" file="gen3/base_link.stl"/>
     <mesh name="shoulder_link" file="gen3/shoulder_link.stl"/>
     <mesh name="half_arm_1_link" file="gen3/half_arm_1_link.stl"/>
@@ -95,23 +81,6 @@
   </asset>
 
   <worldbody>
-    <light pos="0 0 1.5" directional="true"/>
-    <geom name="floor" pos = "0 0 -0.81" size="0 0 0.05" type="plane" material="groundplane"/>
-
-    <geom type="cylinder" size="0.002 0.05" pos="0 0 0" quat="0.7071 0 0.7071 0" rgba="1 0 0 0.7"/>  <!-- X轴（红色） -->
-    <geom type="cylinder" size="0.002 0.05" pos="0 0 0" quat="0.7071 -0.7071 0 0" rgba="0 1 0 0.7"/>  <!-- Y轴（绿色） -->
-    <geom type="cylinder" size="0.002 0.05" pos="0 0 0" rgba="0 0 1 0.7"/>  <!-- Z轴（蓝色） -->
-
-    <!-- Table -->
-    <body name="Table" pos="0.8 0 -0.01">
-        <geom size="0.9 0.4 0.02" type="box" condim="4" friction="0.25 0.005 0.0001" solref="0.01 1" solimp="0.95 0.95 0.01 0.5 2" rgba="0.8 0.5 0.3 1"/>
-        <geom size="0.0135 0.39" pos="-0.875 -0.375 -0.39" type="cylinder" rgba="0.8 0.5 0.3 1"/>
-        <geom size="0.0135 0.39" pos="-0.875 0.375 -0.39" type="cylinder" rgba="0.8 0.5 0.3 1"/>
-        <geom size="0.0135 0.39" pos="0.875 -0.375 -0.39" type="cylinder" rgba="0.8 0.5 0.3 1"/>
-        <geom size="0.0135 0.39" pos="0.875 0.375 -0.39" type="cylinder" rgba="0.8 0.5 0.3 1"/>
-    </body>
-
-    <!-- gen3 -->
     <body name="gen3/base_link" pos="0 0 0">
       <inertial pos="-0.000648 -0.000166 0.084487" quat="0.999294 0.00139618 -0.0118387 0.035636" mass="1.697"
         diaginertia="0.00462407 0.00449437 0.00207755"/>
@@ -126,14 +95,12 @@
         <body name="half_arm_1_link" pos="0 0.005375 -0.12838" quat="1 1 0 0">
           <inertial pos="-4.4e-05 -0.09958 -0.013278" quat="0.482348 0.516286 -0.516862 0.483366" mass="1.1636"
             diaginertia="0.0113017 0.011088 0.00102532"/>
-
           <joint name="joint_2" range="-2.24 2.24"/>
           <geom class="gen3/visual" mesh="half_arm_1_link"/>
           <geom class="gen3/collision" mesh="half_arm_1_link"/>
           <body name="half_arm_2_link" pos="0 -0.21038 -0.006375" quat="1 -1 0 0">
             <inertial pos="-4.4e-05 -0.006641 -0.117892" quat="0.706144 0.0213722 -0.0209128 0.707437" mass="1.1636"
               diaginertia="0.0111633 0.010932 0.00100671"/>
-
             <joint name="joint_3"/>
             <geom class="gen3/visual" mesh="half_arm_2_link"/>
             <geom class="gen3/collision" mesh="half_arm_2_link"/>
@@ -294,10 +261,10 @@
       gainprm="0.3137255 0 0" biasprm="0 -100 -10"/>
   </actuator>
 
-  <keyframe>
+  <!-- <keyframe>
     <key name="home" qpos="0 0.26179939 3.14159265 -2.26892803 0 0.95993109 1.57079633 0 0 0 0 0 0 0 0"
       ctrl="0 0.26179939 3.14159265 -2.26892803 0 0.95993109 1.57079633 0"/>
     <key name="retract" qpos="0 -0.34906585 3.14159265 -2.54818071 0 -0.87266463 1.57079633 0 0 0 0 0 0 0 0"
       ctrl="0 -0.34906585 3.14159265 -2.54818071 0 -0.87266463 1.57079633 0"/>
-  </keyframe>
+  </keyframe> -->
 </mujoco>

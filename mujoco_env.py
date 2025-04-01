@@ -303,9 +303,9 @@ class MujocoSim:
             for name in CANDIDATE_MATERIAL_NAMES
         ]
         
-        # 断言检查确保所有材质都存在
-        for mat_id in self.candidate_material_ids:
-            assert mat_id != -1, f"未找到材质ID：{CANDIDATE_MATERIAL_NAMES[mat_id]}"
+        # # 断言检查确保所有材质都存在
+        # for mat_id in self.candidate_material_ids:
+        #     assert mat_id != -1, f"未找到材质ID：{CANDIDATE_MATERIAL_NAMES[mat_id]}"
 
         # 光源参数范围
         self.ambient_range = (0.1, 0.3)
@@ -353,7 +353,7 @@ class MujocoSim:
         """触发环境随机化并更新仿真状态"""
         with self.randomize_lock:
             self.randomize_materials()
-            # self.randomize_lighting()
+            # self.randomize_lighting() # 2025-03-26 这个光源的切换，有点阴间，我先关了
             
 
             # 更新仿真状态以应用更改
@@ -389,7 +389,7 @@ class MujocoSim:
         elif command == 'reset':
             self.reset()
             
-        # Control callbacks
+        # Control callback
         # 调用控制器的回调函数以处理命令
         # self.base_controller.control_callback(command)  # 处理基座控制
         self.arm_controller.control_callback(command)  # 处理手臂控制
@@ -453,8 +453,8 @@ class MujocoEnv:
     def __init__(self, render_images=True, show_viewer=True, show_images=False):
         
         # only use the kinova gen3 , dont use the base
-        # self.mjcf_path = 'models/kinova_gen3/gen3_2f85.xml'  # MuJoCo模型路径
-        self.mjcf_path = 'models/kinova_gen3/mai_scene_1.xml'  # New Scene
+        # self.mjcf_path = 'models/kinova_gen3/scene_2f85.xml'  # MuJoCo模型路径
+        self.mjcf_path = 'models/kinova_gen3/mai_scene_2.xml'  # New Scene
         self.render_images = render_images  # 是否渲染图像
         self.show_viewer = show_viewer  # 是否显示查看器
         self.show_images = show_images  # 是否显示 camera image
@@ -593,12 +593,12 @@ if __name__ == '__main__':
                 ### setting a rpy to test
                 arm_rpy = [np.pi/2, 0, np.pi/2] # home position
                 arm_quat = rpy_to_quat(arm_rpy)
-                print(f"[main-test] arm_quat {arm_quat}")
+                # print(f"[main-test] arm_quat {arm_quat}")
                 
                 action = {
                     'arm_pos': np.array([0.55, 0, 0.4]),
                     'arm_quat': arm_quat,
-                    'gripper_pos': np.array([0.8]) 
+                    'gripper_pos': np.array([0]) 
                 }
                 
                 ## setting a random action to test

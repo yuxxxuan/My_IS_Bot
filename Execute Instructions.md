@@ -1,25 +1,30 @@
-- real arm retract
 
-```bash
-python arm_test_retract.py
+- sim env teleop play
+```sh
+python main.py --sim --teleop
 ```
 
-- sim_env data collection
+- sim env data collection
 
-```bash
+```sh
 python main.py --sim --teleop --save --output-dir data/demo_sim
 ```
 
-- sim2real replay （need to debug）
+- sim2sim replay （need to debug）
 
 ```bash
-# 1
-python replay_episodes.py --sim --input-dir data/demo_sim
+# 带上场景切换的展示特效
+python replay_episodes.py --sim --sim-showing --input-dir data/demo_sim
 # 1
 python replay_episodes.py --sim --input-dir data/demos --execute-obs
 
 ```
 
+- real arm retract
+
+```bash
+python arm_test_retract.py
+```
 
 - real env data collection
   

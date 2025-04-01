@@ -1,0 +1,55 @@
+
+<mujoco model="IS Basic Scene">
+  <include file="/home/rb01/ZMAI/IS_Bot/models/kinova_gen3/objects/apple_1/model.xml"/>
+  <!-- <include file="/home/rb01/ZMAI/IS_Bot/models/kinova_gen3/objects/apple_2/model.xml"/> -->
+  <include file="textures/textures.xml"/>
+  <include file="objects/basic/table.xml"/>
+  <include file="objects/basic/origin_frame.xml"/>
+  <include file="gen3_2f85.xml"/>
+
+  <statistic center="0.25 0 0.6" extent="1.0" meansize="0.05"/>
+
+  <visual>
+    <headlight diffuse="0.6 0.6 0.6" ambient="0.1 0.1 0.1" specular="0 0 0"/>
+    <rgba haze="0.15 0.25 0.35 1"/>
+    <global azimuth="120" elevation="-20"/>
+  </visual>
+
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
+    <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3"
+      markrgb="0.8 0.8 0.8" width="300" height="300"/>
+    <!-- <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2"/> -->
+    <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5"/>
+
+    
+    <mesh file="/home/rb01/ZMAI/IS_Bot/models/kinova_gen3/objects/basic/apple.obj" name="test_model" scale="0.07 0.07 0.07" refquat="1.0 0.0 0.0 0.0"/>
+    <texture name="apple" type="2d" file="objects/basic/apple.png"/>
+    <material name="apple-mat" texture="apple" specular="0.5" shininess="0.489999983"/>
+  </asset>
+
+  <worldbody>
+    <light pos="0 0 1.5" directional="true"/>
+    <geom name="floor"  pos = "0 0 -0.81" size="0 0 0.05" type="plane" material="light-gray-floor-tile-mat"/>
+
+    <!-- cube -->
+    <body name="cube_1" pos="0.5 0 0.02">
+      <freejoint/>
+      <geom type="box" size="0.02 0.02 0.02" rgba=".5 .7 .5 1" mass="0.1"/>
+    </body>
+
+    <!-- cube -->
+    <body name="cube_2" pos="0.3 0 0.02">
+      <freejoint/>
+      <geom type="box" size="0.02 0.02 0.02" rgba=".5 .0 .5 1" mass="0.1"/>
+    </body>
+
+    <body name="apple_2" pos="0.5 -0.2 0.02">
+      <joint type="free"/>
+      <geom solimp="0.998 0.998 0.001" solref="0.02 1" mass="0.2" friction="1.0 0.5 0.5" type="mesh" mesh="test_model" conaffinity="1" contype="1" group="1" material="apple-mat"/>
+      <!-- <geom type="sphere" size="0.03" rgba="1 0.5 0 1"  mass="0.1" material="apple-mat"/> -->
+    </body>
+
+
+  </worldbody>
+</mujoco>

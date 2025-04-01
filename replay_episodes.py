@@ -8,7 +8,7 @@ from episode_storage import EpisodeReader
 from mujoco_env import MujocoEnv
 
 time_per_segment = 0.3
-def replay_episode(env, episode_dir, show_images=False, execute_obs=False):
+def replay_episode(env, episode_dir, show_images=False, execute_obs=False, sim_showing=False):
     """
     播放指定目录中的回合数据。
 
@@ -37,11 +37,12 @@ def replay_episode(env, episode_dir, show_images=False, execute_obs=False):
         # 计算经过的时间
         elapsed_time = time.time() - start_time
         
-        # 检查是否需要切换时间段
-        if elapsed_time >= (current_segment + 1) * time_per_segment:
-            current_segment += 1
-            env.randomize_environment()
-            print(f"Switching environment at {elapsed_time:.1f}s (Segment {current_segment})")
+        # simulation grounding change here!
+        if sim_showing:
+            if elapsed_time >= (current_segment + 1) * time_per_segment:
+                current_segment += 1
+                env.randomize_environment()
+                print(f"Switching environment at {elapsed_time:.1f}s (Segment {current_segment})")
         
         
         # 强制执行所需的控制频率
@@ -82,7 +83,8 @@ def main(args):
     try:
         episode_dirs = sorted([child for child in Path(args.input_dir).iterdir() if child.is_dir()])
         for episode_dir in episode_dirs:
-            replay_episode(env, episode_dir, show_images=args.show_images, execute_obs=args.execute_obs)
+            # here!mb
+            replay_episode(env, episode_dir, show_images=args.show_images, execute_obs=args.execute_obs, sim_showing=args.sim_showing)
             # input('Press <Enter> to continue...')
     finally:
         env.close()
@@ -91,6 +93,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--input-dir', default='data/demos')
     parser.add_argument('--sim', action='store_true')
+    parser.add_argument('--sim-showing', action='store_true')
     parser.add_argument('--show-images', action='store_true')
     parser.add_argument('--execute-obs', action='store_true')
     main(parser.parse_args())

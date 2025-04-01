@@ -100,6 +100,7 @@ class EpisodeReader:
         with open(episode_dir / 'data.pkl', 'rb') as f:  # Note: Not secure. Only unpickle data you trust.
             data = pickle.load(f)
         self.timestamps = data['timestamps']
+        print(f"timestamps: {self.timestamps}")
         self.observations = data['observations']
         self.actions = data['actions']
         assert len(self.timestamps) > 0
@@ -113,10 +114,25 @@ class EpisodeReader:
                     # Load images from MP4 file
                     if k not in frames_dict:
                         mp4_path = episode_dir / f'{k}.mp4'
-                        frames_dict[k] = read_frames_from_mp4(mp4_path)
+                        # 检查MP4文件是否存在
+                        if mp4_path.exists():
+                            frames_dict[k] = read_frames_from_mp4(mp4_path)
+                        else:
+                            print(f"警告：图像文件 {mp4_path} 不存在，跳过该图像数据的恢复")
+                            # 为避免后续索引错误，设置为空列表
+                            frames_dict[k] = []
+                            # 继续处理下一个键值对
+                            continue
 
-                    # Restore image for current step
-                    obs[k] = frames_dict[k][step_idx]  # np.uint8
+                    # 仅当frames_dict[k]不为空时恢复图像
+                    if frames_dict[k] and step_idx < len(frames_dict[k]):
+                        # Restore image for current step
+                        obs[k] = frames_dict[k][step_idx]  # np.uint8
+                    else:
+                        # 如果没有对应的帧数据，设置为None或其他默认值
+                        print(f"警告：图像数据 {k} 的第 {step_idx} 帧不存在")
+                        # 可以设置为None或者空的图像数组
+                        obs[k] = None
 
     def __len__(self):
         return len(self.observations)
