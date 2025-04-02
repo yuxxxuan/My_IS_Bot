@@ -65,4 +65,7 @@ python replay_episodes.py --sim --input-dir data/demos --execute-obs
 # 1
 python replay_episodes.py --input-dir data/demo_0321
 
+# 2025-04-03
+python replay_episodes.py --input-dir data/demo_sim
+
 ```
