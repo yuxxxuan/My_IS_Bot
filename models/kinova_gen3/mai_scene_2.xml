@@ -1,7 +1,8 @@
 
 <mujoco model="IS Basic Scene">
   <include file="/home/rb01/ZMAI/IS_Bot/models/kinova_gen3/objects/apple_1/model.xml"/>
-  <!-- <include file="/home/rb01/ZMAI/IS_Bot/models/kinova_gen3/objects/apple_2/model.xml"/> -->
+  <!-- <include file="/home/rb01/ZMAI/IS_Bot/models/kinova_gen3/objects/microwaves/model.xml"/> -->
+  <include file="/home/rb01/ZMAI/IS_Bot/models/kinova_gen3/objects/modern_fridge/model.xml"/>
   <include file="textures/textures.xml"/>
   <include file="objects/basic/table.xml"/>
   <include file="objects/basic/origin_frame.xml"/>
@@ -22,10 +23,20 @@
     <!-- <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2"/> -->
     <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5"/>
 
-    
-    <mesh file="/home/rb01/ZMAI/IS_Bot/models/kinova_gen3/objects/basic/apple.obj" name="test_model" scale="0.07 0.07 0.07" refquat="1.0 0.0 0.0 0.0"/>
+    <!-- apple -->
+    <mesh file="/home/rb01/ZMAI/IS_Bot/models/kinova_gen3/objects/basic/apple.obj" name="apple_obj" scale="0.07 0.07 0.07" refquat="1.0 0.0 0.0 0.0"/>
     <texture name="apple" type="2d" file="objects/basic/apple.png"/>
-    <material name="apple-mat" texture="apple" specular="0.5" shininess="0.489999983"/>
+    <material name="apple-material" texture="apple" specular="0.5" shininess="0.489999983"/>
+
+    <!-- banana -->
+    <mesh file="/home/rb01/ZMAI/IS_Bot/models/kinova_gen3/objects/basic/banana.obj" name="banana_obj"  scale="0.16499999999999998 0.16499999999999998 0.16499999999999998" refquat="-2.0514246579479128e-16 0.38268343236508984 0.9238795325112867 8.497279155086131e-17"/>
+    <texture name="banana" type="2d" file="objects/basic/banana.png"/>
+    <material name="banana-material" texture="banana" specular="0.5" shininess="0.25"/>
+
+    <!-- orange -->
+    <mesh file="/home/rb01/ZMAI/IS_Bot/models/kinova_gen3/objects/basic/orange.obj" name="orange_obj" scale="0.06999999999999997 0.06999999999999997 0.06999999999999997" refquat="1.0 0.0 0.0 0.0"/>
+    <texture name="orange" type="2d" file="objects/basic/orange.png"/>
+    <material name="orange-material" texture="orange" specular="0.5" shininess="0.0"/>
   </asset>
 
   <worldbody>
@@ -35,21 +46,33 @@
     <!-- cube -->
     <body name="cube_1" pos="0.5 0 0.02">
       <freejoint/>
-      <geom type="box" size="0.02 0.02 0.02" rgba=".5 .7 .5 1" mass="0.1"/>
+      <geom type="box" size="0.02 0.02 0.02" rgba=".7 .9 .7 1" mass="0.1"/>
     </body>
 
     <!-- cube -->
     <body name="cube_2" pos="0.3 0 0.02">
       <freejoint/>
-      <geom type="box" size="0.02 0.02 0.02" rgba=".5 .0 .5 1" mass="0.1"/>
+      <geom type="box" size="0.02 0.02 0.02" rgba=".5 .7 .9 1" mass="0.1"/>
     </body>
 
-    <body name="apple_2" pos="0.5 -0.2 0.02">
+    <!-- apple -->
+    <body name="apple_2" pos="0.5 -0.2 0.04">
       <joint type="free"/>
-      <geom solimp="0.998 0.998 0.001" solref="0.02 1" mass="0.2" friction="1.0 0.5 0.5" type="mesh" mesh="test_model" conaffinity="1" contype="1" group="1" material="apple-mat"/>
+      <geom solimp="0.998 0.998 0.001" solref="0.02 1" mass="0.2" friction="0.95 0.3 0.1" type="mesh" mesh="apple_obj" conaffinity="1" contype="1" group="1" material="apple-material"/>
       <!-- <geom type="sphere" size="0.03" rgba="1 0.5 0 1"  mass="0.1" material="apple-mat"/> -->
     </body>
 
+    <!-- banana -->
+    <body name="banana_1" pos="0.3 -0.2 0.05">
+      <joint type="free"/>
+      <geom solimp="0.998 0.998 0.001" solref="0.001 1" mass="0.1" friction="0.95 0.3 0.1" type="mesh" mesh="banana_obj" conaffinity="1" contype="1" group="1" material="banana-material"/>
+    </body>
 
+    <!-- orange -->
+    <body name="orange_1" pos="0.3 0.2 0.05">
+      <joint type="free"/>
+      <geom solimp="0.998 0.998 0.001" solref="0.001 1" mass="0.1" friction="0.95 0.3 0.1" type="mesh" mesh="orange_obj" conaffinity="1" contype="1" group="1" material="orange-material"/>
+    </body>
+    
   </worldbody>
 </mujoco>

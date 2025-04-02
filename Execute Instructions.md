@@ -1,5 +1,12 @@
+# quick start
+```
+ python -m mujoco.viewer
+```
 
-- sim env teleop play
+# execute instructions
+
+- sim env teleop play 
+  快速控制仿真遥操作
 ```sh
 python main.py --sim --teleop
 ```
