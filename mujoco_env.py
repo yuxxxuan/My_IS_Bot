@@ -322,7 +322,7 @@ class MujocoSim:
         mujoco.set_mjcb_control(self.control_callback) 
 
     def randomize_materials(self):
-        floor_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_GEOM, 'floor')
+        floor_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_GEOM, 'floor1')
         table_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_GEOM, 'table_top')
         # 验证geom ID有效性
         assert floor_id != -1, "地板geom未找到"
@@ -349,12 +349,74 @@ class MujocoSim:
             light.diffuse = np.random.uniform(*self.diffuse_range, 3)
             light.specular = np.random.uniform(*self.specular_range, 3)
 
+    def randomize_objects_textures(self):
+        """随机更新物体纹理，特别是tray_2的颜色"""
+        # 定义五种颜色：黑色，白色，淡黄色，淡绿色，棕色
+        colors = [
+            [0.2, 0.2, 0.2, 1.0],  # 黑色
+            [0.9, 0.9, 0.9, 1.0],  # 白色
+            [0.9, 0.9, 0.5, 1.0],  # 淡黄色（原始颜色）
+            [0.7, 0.9, 0.7, 1.0],  # 淡绿色
+            [0.6, 0.4, 0.2, 1.0]   # 棕色
+        ]
+        
+        # 随机选择一种颜色
+        selected_color = random.choice(colors)
+        
+        # 获取tray_2的body ID
+        tray_body_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, "tray_2")
+        print(f"tray_2 body ID: {tray_body_id}")
+        
+        if tray_body_id == -1:
+            print("警告：找不到名为'tray_2'的body，颜色不会改变")
+            return
+            
+        # 获取这个body下的所有几何体
+        tray_geoms = []
+        
+        # 打印所有几何体，帮助调试
+        print(f"总几何体数量: {self.model.ngeom}")
+        
+        # 查找属于tray_2 body的所有几何体
+        for i in range(self.model.ngeom):
+            if self.model.geom_bodyid[i] == tray_body_id:
+                tray_geoms.append(i)
+                geom_name = mujoco.mj_id2name(self.model, mujoco.mjtObj.mjOBJ_GEOM, i)
+                print(f"找到tray_2的几何体: ID={i}, 名称={geom_name}, 当前颜色={self.model.geom_rgba[i]}")
+        
+        if not tray_geoms:
+            print("警告：找不到tray_2 body下的任何几何体")
+            
+            # 回退方法：通过颜色近似值查找
+            for i in range(self.model.ngeom):
+                rgba = self.model.geom_rgba[i]
+                # 使用更宽松的颜色匹配条件
+                if (abs(rgba[0] - 0.9) < 0.1 and 
+                    abs(rgba[1] - 0.9) < 0.1 and 
+                    abs(rgba[2] - 0.5) < 0.1):
+                    tray_geoms.append(i)
+                    print(f"通过颜色匹配找到可能的tray_2几何体: ID={i}, 颜色={rgba}")
+        
+        print(f"找到的tray_2几何体总数: {len(tray_geoms)}")
+        
+        # 将新颜色应用到所有找到的几何体
+        for geom_id in tray_geoms:
+            old_color = self.model.geom_rgba[geom_id].copy()
+            self.model.geom_rgba[geom_id] = selected_color
+            print(f"将几何体ID={geom_id}的颜色从{old_color}改为{selected_color}")
+
     def randomize_environment(self):
         """触发环境随机化并更新仿真状态"""
         with self.randomize_lock:
-            self.randomize_materials()
-            # self.randomize_lighting() # 2025-03-26 这个光源的切换，有点阴间，我先关了
             
+            # 随机更新环境纹理
+            # self.randomize_materials()
+            
+            # 随机更新指定物体纹理
+            self.randomize_objects_textures()
+            
+            # 随机更新环境光源
+            # self.randomize_lighting() # 2025-03-26 这个光源的切换，有点阴间，我先关了
 
             # 更新仿真状态以应用更改
             mujoco.mj_forward(self.model, self.data)

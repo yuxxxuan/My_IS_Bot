@@ -7,7 +7,7 @@ from constants import POLICY_CONTROL_PERIOD
 from episode_storage import EpisodeReader
 from mujoco_env import MujocoEnv
 
-time_per_segment = 0.3
+time_per_segment = 0.5
 def replay_episode(env, episode_dir, show_images=False, execute_obs=False, sim_showing=False):
     """
     播放指定目录中的回合数据。
