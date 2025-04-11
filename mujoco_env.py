@@ -1,9 +1,9 @@
-# Author: Jimmy Wu
-# Date: October 2024
-#
-# Note: This is a basic simulation environment for sanity checking the
-# real-world pipeline for teleop and imitation learning. Performance metrics,
-# reward signals, and termination signals are not implemented.
+# Author: ZMAI  
+# Date: 2025-04-07
+# Version: 1.1
+# References:
+# - https://github.com/jimmyyhwu/tidybot2/blob/main/mujoco_env.py
+
 
 import math
 import multiprocessing as mp
@@ -516,6 +516,7 @@ class MujocoEnv:
         
         # only use the kinova gen3 , dont use the base
         # self.mjcf_path = 'models/kinova_gen3/scene_2f85.xml'  # MuJoCo模型路径
+        # self.mjcf_path = 'models/kinova_gen3/mai_scene_3_lab.xml'  # New Scene
         self.mjcf_path = 'models/kinova_gen3/mai_scene_3.xml'  # New Scene
         self.render_images = render_images  # 是否渲染图像
         self.show_viewer = show_viewer  # 是否显示查看器
@@ -655,8 +656,7 @@ if __name__ == '__main__':
                 ### setting a rpy to test
                 arm_rpy = [np.pi/2, 0, np.pi/2] # home position
                 arm_quat = rpy_to_quat(arm_rpy)
-                # print(f"[main-test] arm_quat {arm_quat}")
-                
+                # print(f"[main-test] arm_quat {arm_quat}")           
                 action = {
                     'arm_pos': np.array([0.55, 0, 0.4]),
                     'arm_quat': arm_quat,
