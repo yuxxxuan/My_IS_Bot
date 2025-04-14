@@ -517,7 +517,7 @@ class MujocoEnv:
         # only use the kinova gen3 , dont use the base
         # self.mjcf_path = 'models/kinova_gen3/scene_2f85.xml'  # MuJoCo模型路径
         # self.mjcf_path = 'models/kinova_gen3/mai_scene_3_lab.xml'  # New Scene
-        self.mjcf_path = 'models/kinova_gen3/mai_scene_3.xml'  # New Scene
+        self.mjcf_path = 'models/kinova_gen3/1_table_1_gen3.xml'  # New Scene
         self.render_images = render_images  # 是否渲染图像
         self.show_viewer = show_viewer  # 是否显示查看器
         self.show_images = show_images  # 是否显示 camera image

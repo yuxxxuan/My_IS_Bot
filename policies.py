@@ -309,7 +309,7 @@ class TeleopController:
         if arm_quat[3] < 0.0:  # 确保四元数唯一性
             np.negative(arm_quat, out=arm_quat)  # 反转四元数
         action = {
-            # 'base_pose': self.base_target_pose.copy(),  # 返回基座目标位置
+            'base_pose': self.base_target_pose.copy(),  # 返回基座目标位置
             'arm_pos': self.arm_target_pos.copy(),  # 返回手臂目标位置
             'arm_quat': arm_quat,  # 返回手臂目标旋转
             'gripper_pos': self.gripper_target_pos.copy(),  # 返回夹爪目标位置

@@ -1,0 +1,155 @@
+<!-- 
+    Author：zmai
+    Edit time：2025-04-15
+    Include:
+    定义了一个包含多种物体和交互的桌面仿真环境。
+    主要内容包括：
+    1. 场景基础设置：光照、纹理、材质等。
+    2. 物体定义：
+        - 动态(带自由度)物品: 苹果、香蕉、橙子、托盘、盘子等。
+        - 静态(无自由度)物品: 冰箱、桌子等。
+    3. 世界体布局：定义了物体的位置、大小、质量、摩擦力等物理属性。
+-->
+<mujoco model="IS Basic Scene">
+  <include file="gen3_2f85.xml"/>
+  <include file="fridge.xml"/>
+  <include file="../textures/textures.xml"/>
+  <include file="objects/basic/table.xml"/>
+  <include file="objects/basic/origin_frame.xml"/>
+  
+
+  <statistic center="0.25 0 0.6" extent="1.0" meansize="0.05"/>
+
+  <visual>
+    <headlight diffuse="0.6 0.6 0.6" ambient="0.1 0.1 0.1" specular="0 0 0"/>
+    <rgba haze="0.15 0.25 0.35 1"/>
+    <global azimuth="120" elevation="-20"/>
+  </visual>
+
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
+    <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3"markrgb="0.8 0.8 0.8" width="300" height="300"/>
+    <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5"/>
+
+    <!-- apple -->
+    <mesh file="objects/basic/apple.obj" name="apple_obj" scale="0.07 0.07 0.07" refquat="1.0 0.0 0.0 0.0"/>
+    <texture name="apple" type="2d" file="objects/basic/apple.png"/>
+    <material name="apple-material" texture="apple" specular="0.5" shininess="0.489999983"/>
+
+    <!-- banana -->
+    <mesh file="objects/basic/banana.obj" name="banana_obj"  scale="0.16499999999999998 0.16499999999999998 0.16499999999999998" refquat="-2.0514246579479128e-16 0.38268343236508984 0.9238795325112867 8.497279155086131e-17"/>
+    <texture name="banana" type="2d" file="objects/basic/banana.png"/>
+    <material name="banana-material" texture="banana" specular="0.5" shininess="0.25"/>
+
+    <!-- orange -->
+    <mesh file="objects/basic/orange.obj" name="orange_obj" scale="0.06999999999999997 0.06999999999999997 0.06999999999999997" refquat="1.0 0.0 0.0 0.0"/>
+    <texture name="orange" type="2d" file="objects/basic/orange.png"/>
+    <material name="orange-material" texture="orange" specular="0.5" shininess="0.0"/>
+
+    <!-- tray0 -->
+    <material name="tray0-material" specular="0.5" shininess="0.19123955" rgba="1 1 1 1.0"/>
+
+    <!-- plate -->
+    <mesh file="objects/basic/plate.obj" name="plate_obj" scale="0.2 0.2 0.2" refquat="1.0 0.0 0.0 0.0"/>
+    <material name="palte-green-material" specular="0.5" shininess="0.359999993" rgba="0.5 0.95 0.7 1"/>
+  </asset>
+
+  <worldbody>
+    <light pos="-0.5 0.5 1.5" directional="true"/>
+
+   <!-- camera1 -->
+   <!-- <camera name="camera1" pos="0 0 0.5" fovy="30" width="1280" height="720"/> -->
+
+    <!-- floor1 -->
+    <geom name="floor1"  pos = "0 0 -0.81" size="0 0 0.05" type="plane" material="light-gray-floor-tile-mat"/>
+
+    <!-- cube group-->
+    <body name="cube_1" pos="0.2 0.21 0.02">
+      <freejoint/>
+      <geom type="box" size="0.02 0.02 0.02" rgba=".5 .7 .9 1" mass="0.1"/>
+    </body>
+
+    <body name="cube_2" pos="0.3 0.21 0.02">
+      <freejoint/>
+      <geom type="box" size="0.02 0.02 0.02" rgba="1.0 0.5 0.5 1" mass="0.1"/>
+    </body>
+
+    <body name="cube_3" pos="0.4 0.21 0.02">
+      <freejoint/>
+      <geom type="box" size="0.02 0.02 0.02" rgba=".5 .7 .9 1" mass="0.1"/>
+    </body>
+
+    <body name="cube_4" pos="0.5 0.21 0.02">
+      <freejoint/>
+      <geom type="box" size="0.02 0.02 0.02" rgba="1.0 0.5 0.5 1" mass="0.1"/>
+    </body>
+
+    <!-- apple -->
+    <body name="apple_1" pos="0.4 0 0.04">
+      <joint type="free"/>
+      <geom solimp="0.998 0.998 0.001" solref="0.02 1" mass="0.2" friction="0.95 0.3 0.1" type="mesh" mesh="apple_obj" conaffinity="1" contype="1" group="1" material="apple-material"/>
+      <!-- <geom type="sphere" size="0.03" rgba="1 0.5 0 1"  mass="0.1" material="apple-mat"/> -->
+    </body>
+
+    <body name="apple_2" pos="0.3 0.1 0.04">
+      <joint type="free"/>
+      <geom solimp="0.998 0.998 0.001" solref="0.02 1" mass="0.2" friction="0.95 0.3 0.1" type="mesh" mesh="apple_obj" conaffinity="1" contype="1" group="1" material="apple-material"/>
+      <!-- <geom type="sphere" size="0.03" rgba="1 0.5 0 1"  mass="0.1" material="apple-mat"/> -->
+    </body>
+
+    <!-- banana -->
+    <body name="banana_1" pos="0.38 -0.25 0.06">
+      <joint type="free"/>
+      <geom solimp="0.95 0.98 0.005" solref="0.001 1" mass="0.1" friction="1.0 0.1 0.1" type="mesh" mesh="banana_obj" conaffinity="1" contype="1" group="1" material="banana-material"/>
+    </body>
+
+    <!-- orange -->
+    <body name="orange_1" pos="0.32 -0.1 0.06">
+      <joint type="free"/>
+      <geom solimp="0.95 0.98 0.005" solref="0.02 1" mass="0.1" friction="1.0 0.1 0.1" type="mesh" mesh="orange_obj" conaffinity="1" contype="1" group="1" material="orange-material"/>
+    </body>
+
+    <!-- orange 2 (in tray 2)-->
+    <body name="orange_2" pos="0.68 -0.18 0.05">
+      <joint type="free"/>
+      <geom solimp="0.95 0.98 0.005" solref="0.02 1" mass="0.1" friction="1.0 0.1 0.1" type="mesh" mesh="orange_obj" conaffinity="1" contype="1" group="1" material="orange-material"/>
+    </body>
+
+    <!-- plate -->
+    <body name="plate_1" pos="0.37 -0.26 0.02">
+      <freejoint/>
+      <geom type="mesh" mesh="plate_obj" conaffinity="1" contype="1" group="1" material="palte-green-material" mass="0.5" friction="1.0 0.1 0.1" solimp="0.95 0.98 0.005" solref="0.001 1"/>
+    </body>
+
+    <!-- tray_1 -->
+    <body name="tray_1" pos="0.65 0.05 0.035">
+        <freejoint/>
+        <!-- Bottom -->
+        <geom type="box" size="0.1 0.06 0.0025" pos="0 0 -0.0225" material="tray0-material" mass="0.05" group="1" contype="1" conaffinity="1"/>
+        <!-- Front Wall -->
+        <geom type="box" size="0.1 0.0025 0.025" pos="0 0.0575 0" material="tray0-material" mass="0.05" group="1" contype="1" conaffinity="1"/>
+        <!-- Back Wall -->
+        <geom type="box" size="0.1 0.0025 0.025" pos="0 -0.0575 0" material="tray0-material" mass="0.05" group="1" contype="1" conaffinity="1"/>
+        <!-- Left Wall -->
+        <geom type="box" size="0.0025 0.06 0.025" pos="-0.0975 0 0" material="tray0-material" mass="0.05" group="1" contype="1" conaffinity="1"/>
+        <!-- Right Wall -->
+        <geom type="box" size="0.0025 0.06 0.025" pos="0.0975 0 0" material="tray0-material" mass="0.05" group="1" contype="1" conaffinity="1"/>
+    </body>
+
+    <!-- tray_2 yellow-->
+    <body name="tray_2" pos="0.65 -0.15 0.035">
+        <freejoint/>
+        <!-- Bottom -->
+        <geom type="box" size="0.1 0.09 0.0025" pos="0 0 -0.0225" rgba="0.9 0.9 0.5 1" mass="0.05" group="1" contype="1" conaffinity="1"/>
+        <!-- Front Wall -->
+        <geom type="box" size="0.1 0.0025 0.025" pos="0 0.0865 0" rgba="0.9 0.9 0.5 1" mass="0.05" group="1" contype="1" conaffinity="1"/>
+        <!-- Back Wall -->
+        <geom type="box" size="0.1 0.0025 0.025" pos="0 -0.0865 0" rgba="0.9 0.9 0.5 1" mass="0.05" group="1" contype="1" conaffinity="1"/>
+        <!-- Left Wall -->
+        <geom type="box" size="0.0025 0.09 0.025" pos="-0.0975 0 0" rgba="0.9 0.9 0.5 1" mass="0.05" group="1" contype="1" conaffinity="1"/>
+        <!-- Right Wall -->
+        <geom type="box" size="0.0025 0.09 0.025" pos="0.0975 0 0" rgba="0.9 0.9 0.5 1" mass="0.05" group="1" contype="1" conaffinity="1"/>
+    </body>
+
+  </worldbody>
+</mujoco>

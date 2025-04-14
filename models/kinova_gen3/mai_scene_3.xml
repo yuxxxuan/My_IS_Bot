@@ -1,7 +1,5 @@
 
 <mujoco model="IS Basic Scene">
-  <!-- <include file="/home/rb01/ZMAI/IS_Bot/models/kinova_gen3/objects/apple_1/model.xml"/> -->
-  <!-- <include file="/home/rb01/ZMAI/IS_Bot/models/kinova_gen3/objects/microwaves/model.xml"/> -->
   <include file="/home/rb01/ZMAI/IS_Bot/models/kinova_gen3/objects/modern_fridge/model.xml"/>
   <include file="textures/textures.xml"/>
   <include file="objects/basic/table.xml"/>
