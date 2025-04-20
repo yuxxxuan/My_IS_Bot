@@ -1,6 +1,7 @@
 site_name: IS_Bot 文档
 site_description: IS_Bot机器人项目的详细文档
 site_author: ZMAI
+site_url: https://fennmai.github.io/IS_Bot/
 
 theme:
   name: material
@@ -11,6 +12,7 @@ theme:
   features:
     - navigation.tabs
     - navigation.sections
+    - navigation.indexes
     - toc.integrate
     - navigation.top
     - search.suggest
@@ -57,3 +59,7 @@ nav:
     - MujocoEnv: api/mujoco_env.md
     - 机器人控制器: api/controllers.md
   - 贡献指南: contributing.md
+
+docs_dir: docs
+site_dir: site
+use_directory_urls: true
