@@ -5,26 +5,13 @@ on:
     branches:
       - main
 
-permissions:
-  contents: write  # 添加写入权限
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v3
         with:
           python-version: 3.x
-      - name: 安装依赖
-        run: |
-          pip install "mkdocs-material>=9.0.0" 
-          pip install pymdown-extensions
-      - name: 调试信息
-        run: |
-          echo "当前目录内容:"
-          ls -la
-          echo "文档目录内容:"
-          ls -la docs/
-      - name: 部署文档
-        run: mkdocs gh-deploy --force --verbose
+      - run: pip install mkdocs-material
+      - run: mkdocs gh-deploy --force
