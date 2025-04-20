@@ -1,0 +1,47 @@
+site_name: IS_Bot 文档
+site_description: IS_Bot机器人项目的详细文档
+site_author: ZMAI
+
+theme:
+  name: material
+  language: zh
+  palette:
+    primary: indigo
+    accent: indigo
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - toc.integrate
+    - navigation.top
+    - search.suggest
+    - search.highlight
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed
+  - pymdownx.critic
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+nav:
+  - 首页: index.md
+  - 项目概述: overview.md
+  - 技术架构:
+    - 系统架构: architecture/system.md
+    - MuJoCo模拟环境: architecture/mujoco_env.md
+    - 模型定义: architecture/models.md
+  - 文件结构:
+    - 项目结构总览: file_structure/overview.md
+    - 核心模块: file_structure/core_modules.md
+    - 物理模拟: file_structure/simulation.md
+    - 机器人控制: file_structure/robot_control.md
+  - 使用教程:
+    - 环境配置: tutorials/setup.md
+    - 基本操作: tutorials/basic_usage.md
+    - 高级功能: tutorials/advanced_features.md
+  - API参考:
+    - MujocoEnv: api/mujoco_env.md
+    - 机器人控制器: api/controllers.md
+  - 贡献指南: contributing.md

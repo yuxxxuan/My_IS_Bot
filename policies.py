@@ -149,7 +149,7 @@ class TeleopController:
         self.gripper_ref_pos = None  # 夹爪参考位置
         
         self.base2arm_ref_pose = None  # 由世界坐标到arm的相对坐标参考位置，原代码不改动
-        mujoco_xml_path = "models/kinova_gen3/gen3_2f85.xml"
+        mujoco_xml_path = "models/gen3_2f85.xml"
         self._parse_base_link_pos(mujoco_xml_path)
         print(f"[TeleopController-__init__] base2arm_ref_pose: {self.base2arm_ref_pose}")
         

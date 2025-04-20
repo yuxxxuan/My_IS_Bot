@@ -1,9 +1,0 @@
-<body name="apple">
-    <geom type="mesh" mesh="model_normalized_0_vis"
-          material="apple_material" group="1"
-          density="100" friction="0.95 0.3 0.1"/>
-    <geom type="mesh" mesh="model_normalized_0_vis"
-          group="0"
-          rgba="0.8 0.8 0.8 0"
-          density="100" friction="0.95 0.3 0.1"/>
-</body>
