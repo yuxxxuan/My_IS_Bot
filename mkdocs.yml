@@ -3,6 +3,11 @@ site_description: IS_Bot机器人项目的详细文档
 site_author: ZMAI
 site_url: https://fennmai.github.io/IS_Bot/
 
+# 指定Markdown源文件目录
+docs_dir: docs_src
+# 指定生成的网站目录(github pages -> 指定为 main -> docs)
+site_dir: docs
+
 theme:
   name: material
   language: zh
@@ -58,8 +63,7 @@ nav:
   - API参考:
     - MujocoEnv: api/mujoco_env.md
     - 机器人控制器: api/controllers.md
-  - 贡献指南: contributing.md
+  - 文档更新与贡献指南: contributing.md
 
-docs_dir: docs
-site_dir: site
-use_directory_urls: true
+
+
