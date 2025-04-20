@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write  # 添加写入权限
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -14,11 +17,4 @@ jobs:
         with:
           python-version: 3.x
       - run: pip install mkdocs-material
-      - run: mkdocs build --site-dir ./docs
-      - name: Commit changes
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add ./docs
-          git commit -m "Update documentation" || echo "No changes to commit"
-          git push
+      - run: mkdocs gh-deploy --force
