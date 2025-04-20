@@ -30,8 +30,9 @@ nav:
   - 项目概述: overview.md
   - 技术架构:
     - 系统架构: architecture/system.md
-    - MuJoCo模拟环境: architecture/mujoco_env.md
-    - 模型定义: architecture/models.md
+    - 仿真环境(Mujoco): architecture/mujoco_env.md
+    - 真实环境: architecture/real_env.md
+    - 遥操作: architecture/teleop.md
   - 文件结构:
     - 项目结构总览: file_structure/overview.md
     - 核心模块: file_structure/core_modules.md
@@ -39,8 +40,19 @@ nav:
     - 机器人控制: file_structure/robot_control.md
   - 使用教程:
     - 环境配置: tutorials/setup.md
-    - 基本操作: tutorials/basic_usage.md
-    - 高级功能: tutorials/advanced_features.md
+    - 基本操作: 
+        - 概述: tutorials/basic_usage.md
+        - 仿真启动: tutorials/mujoco_usage.md
+        - 真机启动: tutorials/real_robot_usage.md
+        - 遥操作启动: tutorials/teleop.md
+    - 高级操作: 
+        - 概述: tutorials/advanced_features.md
+        - 数据回放: tutorials/data_replay.md
+        - 数据增强: tutorials/data_augmentation.md
+        - 数据集管理与转换: tutorials/dataset_management.md
+        - 模型部署: tutorials/model_deployment.md
+    - 未来规划:
+        - 拓展接口功能: tutorials/extend_interface.md
   - API参考:
     - MujocoEnv: api/mujoco_env.md
     - 机器人控制器: api/controllers.md

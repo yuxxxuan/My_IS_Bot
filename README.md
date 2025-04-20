@@ -5,3 +5,8 @@
 ## 文档
 
 详细文档请访问：[IS_Bot 文档](https://fennmai.github.io/IS_Bot/)
+
+## Web Test
+```
+mkdocs serve
+```

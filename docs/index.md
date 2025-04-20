@@ -1,17 +1,36 @@
-# Welcome to MkDocs
+# IS_Bot
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+欢迎使用IS_Bot项目文档
 
-## Commands
+## 项目特点
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+**Robot Twin**
 
-## Project layout
+**Sim2Real**
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+**Real2Sim**
+
+**Real2Sim2Real**
+
+## 快速开始
+
+```bash
+# 克隆仓库
+git clone https://github.com/FennMai/IS_Bot.git
+cd IS_Bot
+
+# 安装依赖
+pip install -r requirements.txt
+
+```
+
+## 使用指南
+
+- [项目概述](overview.md) - 了解IS_Bot项目的背景和设计理念
+- [环境配置](tutorials/setup.md) - 配置开发环境
+- [基本操作](tutorials/basic_usage.md) - 学习基本的使用方法
+- [技术架构](architecture/system.md) - 了解系统的技术架构
+
+## 开发团队
+
+IS_Bot由ZMAI构建并维护。
