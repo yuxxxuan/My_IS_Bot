@@ -1463,14 +1463,14 @@
 
 <h1 id="_1">项目概述</h1>
 <h2 id="_2">背景</h2>
-<p>IS_Bot项目源于对机器人模拟环境与控制系统的需求，旨在提供一个统一的平台，用于机器人控制算法的开发、测试和部署。项目基于MuJoCo物理引擎，结合了现代化的软件架构设计，使得系统具有高度的可扩展性和灵活性。</p>
+<p>IS_Bot项目源于对机器人模拟环境与真实环境控制系统的需求，旨在提供一个统一的平台，用于端到端模型的数据采集、机器人控制器对比、仿真部署、真实环境部署和benchmark部署。</p>
 <h2 id="_3">项目目标</h2>
 <ul>
 <li><strong>提供高保真的物理模拟环境</strong>：基于MuJoCo物理引擎，模拟真实世界的物理交互</li>
 <li><strong>简化机器人控制接口</strong>：提供统一、简洁的API，降低开发难度</li>
 <li><strong>支持多种机器人模型</strong>：包括但不限于Kinova Gen3机械臂</li>
-<li><strong>便于研究和教学</strong>：提供清晰的文档和示例，便于学习和研究</li>
-<li><strong>支持强化学习研究</strong>：提供适合强化学习的环境接口和工具</li>
+<li><strong>便于快速入门和深度研究</strong>：提供清晰的文档和示例，在项目内，每个小方向，均可进行深度的探索尝试，不仅仅是模型</li>
+<li><strong>支持主流数据格式</strong>：包括Diffusion Policy、lerobot等，数据格式之间的快速转换</li>
 </ul>
 <h2 id="_4">核心功能</h2>
 <h3 id="_5">物理模拟</h3>
@@ -1487,7 +1487,8 @@
 </ul>
 <h3 id="_7">数据收集与分析</h3>
 <ul>
-<li>支持传感器数据的收集和存储</li>
+<li>支持IMU2End-effector的物理映射</li>
+<li>支持多传感器数据的收集和存储</li>
 <li>提供数据可视化工具</li>
 <li>支持回放与分析功能</li>
 </ul>
@@ -1495,14 +1496,13 @@
 <ul>
 <li>支持与ROS集成</li>
 <li>提供Python API</li>
-<li>可与强化学习框架集成</li>
+<li>可与Robosuite，Robocasa，Dexmimicgen等库进行使用</li>
 </ul>
 <h2 id="_9">技术栈</h2>
 <ul>
-<li><strong>核心引擎</strong>：MuJoCo物理引擎</li>
+<li><strong>核心仿真引擎</strong>：MuJoCo</li>
 <li><strong>编程语言</strong>：Python</li>
-<li><strong>辅助库</strong>：NumPy, OpenCV, Ruckig等</li>
-<li><strong>可视化</strong>：MuJoCo内置渲染器</li>
+<li><strong>可视化</strong>: mujoco.viewer, rerun.io</li>
 </ul>
 
 
