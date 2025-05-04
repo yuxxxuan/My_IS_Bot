@@ -1,5 +1,6 @@
-# Author: Jimmy Wu
-# Date: October 2024
+# Author: ZMAI
+# Date: 2025-05-04
+# Version: 1.1
 #
 # IMPORTANT: The mobile base has very strong motors and should be closely
 # monitored during operation, especially if any changes are made to this code.

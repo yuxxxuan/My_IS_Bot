@@ -1,6 +1,3 @@
-# Author: Jimmy Wu
-# Date: October 2024
-
 import argparse
 import time
 from itertools import count

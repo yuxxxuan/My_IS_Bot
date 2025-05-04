@@ -1,6 +1,4 @@
-# Author: Jimmy Wu
-# Date: October 2024
-#
+
 # References:
 # - https://github.com/Kinovarobotics/kortex/blob/master/api_python/examples/108-Gen3_torque_control/01-torque_control_cyclic.py
 # - https://github.com/empriselab/kortex_hardware/blob/main/src/Gen3Robot.cpp

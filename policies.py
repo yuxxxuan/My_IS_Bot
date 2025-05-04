@@ -1,5 +1,6 @@
-# Author: Jimmy Wu
-# Date: October 2024
+# Author: ZMAI  
+# Date: 2025-05-04
+# Version: 1.1
 # policies.py
 
 import logging  # 导入日志模块

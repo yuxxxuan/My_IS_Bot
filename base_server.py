@@ -1,5 +1,6 @@
-# Author: Jimmy Wu
-# Date: October 2024
+# Author: ZMAI
+# Date: 2025-05-04
+# Version: 1.1
 #
 # This RPC server allows other processes to communicate with the mobile base
 # low-level controller, which runs in its own, dedicated real-time process.

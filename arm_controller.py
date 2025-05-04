@@ -1,6 +1,6 @@
-# Author: Jimmy Wu
-# Date: October 2024
-#
+# Author: ZMAI
+# Date: 2025-05-04
+# Version: 1.1
 # References:
 # - https://github.com/empriselab/gen3_compliant_controllers/blob/main/src/JointSpaceCompliantController.cpp
 # - https://github.com/empriselab/gen3_compliant_controllers/blob/main/media/controller_formulation.pdf

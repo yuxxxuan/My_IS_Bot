@@ -1,6 +1,4 @@
-# Author: Jimmy Wu
-# Date: October 2024
-#
+
 # Note: This file is intended to be run within the diffusion_policy repository
 
 import argparse

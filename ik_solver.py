@@ -1,6 +1,4 @@
-# Author: Jimmy Wu
-# Date: October 2024
-#
+
 # References:
 # - https://github.com/bulletphysics/bullet3/blob/master/examples/ThirdPartyLibs/BussIK/Jacobian.cpp
 # - https://github.com/kevinzakka/mjctrl/blob/main/diffik_nullspace.py

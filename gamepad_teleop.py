@@ -1,6 +1,4 @@
-# Author: Jimmy Wu
-# Date: October 2024
-#
+
 # Note: This code is only intended for debugging the base controller.
 # In external code, avoid directly importing Vehicle as done here.
 # Instead, please use the RPC server in base_server.py, which runs the

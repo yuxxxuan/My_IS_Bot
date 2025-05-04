@@ -1,5 +1,3 @@
-# Author: Jimmy Wu
-# Date: October 2024
 
 import math
 import time

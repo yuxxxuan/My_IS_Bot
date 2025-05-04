@@ -1,5 +1,3 @@
-# Author: Jimmy Wu
-# Date: October 2024
 #
 # References:
 # - https://github.com/ARISE-Initiative/robomimic/blob/master/robomimic/scripts/dataset_states_to_obs.py
