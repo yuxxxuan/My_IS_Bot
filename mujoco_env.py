@@ -17,10 +17,11 @@ import mujoco.viewer
 import numpy as np
 from ruckig import InputParameter, OutputParameter, Result, Ruckig
 from scipy.spatial.transform import Rotation as R
-from constants import POLICY_CONTROL_PERIOD
-from ik_solver import IKSolver
 import random
 from mujoco import mjtObj  
+from configs.constants import POLICY_CONTROL_PERIOD
+from robot_controller.ik_solver import IKSolver
+
 
 # 共享内存状态类，用于存储机器人的状态信息
 class ShmState:
@@ -251,7 +252,7 @@ class MujocoSim:
         self.model = mujoco.MjModel.from_xml_path(mjcf_path)  # 从XML路径加载模型
         self.data = mujoco.MjData(self.model)  # 创建数据对象
         self.command_queue = command_queue  # 命令队列
-        self.show_viewer = show_viewer  # 是否显示查看器
+        self.show_viewer = show_viewer  # 有头无头
 
         # Enable gravity compensation for everything except objects
         self.model.body_gravcomp[:] = 1.0  # 此处1.0 表示启用重力补偿
@@ -264,7 +265,7 @@ class MujocoSim:
         #         self.model.body_gravcomp[self.model.body(object_name).id] = 0.0  # 禁用特定物体的重力补偿
 
         # Cache references to array slices
-        
+    
         arm_dofs = 7  # 手臂自由度数量
         qpos_arm = self.data.qpos[: arm_dofs]  # 手臂位置
         qvel_arm = self.data.qvel[: arm_dofs]  # 手臂速度
@@ -273,7 +274,7 @@ class MujocoSim:
         ctrl_gripper = self.data.ctrl[arm_dofs:(arm_dofs + 1)]  # 夹爪控制信号
         
         # 这里改的不确定！tag:mb
-        # self.qpos_cube = self.data.qpos[(arm_dofs + 8):(arm_dofs + 8 + 7)]  # 立方体位置
+        # self.qpos_cube = self.data.qpos[(arm_dofs + 8):(arm_dofs + 8 + 7)]  # 立方体位置? 为什么要 + 8 + 7
 
         # Controllers
         # self.base_controller = BaseController(self.qpos_base, qvel_base, ctrl_base, self.model.opt.timestep)  # 创建基座控制器
@@ -297,7 +298,7 @@ class MujocoSim:
         ### random env
 
         # 新增材质ID缓存
-        from random_env_constant import CANDIDATE_MATERIAL_NAMES
+        from configs.random_env_constant import CANDIDATE_MATERIAL_NAMES
         self.candidate_material_ids = [
             mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_MATERIAL, name)
             for name in CANDIDATE_MATERIAL_NAMES
@@ -555,7 +556,7 @@ class MujocoEnv:
         # Create sim
         # 启动 MuJoCoSim 仿真
         print('MujocoEnv-physics_loop: 1')
-        # 启用多线程了，里面的东西，没办法print
+        # 得启用多线程，里面的东西，没办法print
         sim = MujocoSim(self.mjcf_path, self.command_queue, self.shm_state, show_viewer=self.show_viewer)  
 
         # Start render loop
@@ -565,6 +566,7 @@ class MujocoEnv:
 
         # Launch sim
         sim.launch()  # 启动仿真
+    
     def render_loop(self, model, data):
         # Set up renderers
         renderers = [Renderer(model, data, shm_image) for shm_image in self.shm_images]  # 创建渲染器
@@ -577,8 +579,9 @@ class MujocoEnv:
             render_time = time.time() - start_time  # 计算渲染时间
             if render_time > 0.1:  # 10 fps
                 print(f'Warning: Offscreen rendering took {1000 * render_time:.1f} ms, try making the Mujoco viewer window smaller to speed up offscreen rendering')
-
-    def visualizer_loop(self):
+    
+    #camera可视化窗口   
+    def visualizer_loop(self): 
         shm_images = [ShmImage(existing_instance=shm_image) for shm_image in self.shm_images]  # 创建共享内存图像
         last_imshow_time = time.time()  # 记录上次显示时间
         while True:

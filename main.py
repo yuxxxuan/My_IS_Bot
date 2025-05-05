@@ -11,7 +11,7 @@ def args_parser_setting():
     parser.add_argument('--sim', action='store_true')
     parser.add_argument('--teleop', action='store_true')
     parser.add_argument('--save', action='store_true')
-    parser.add_argument('--output-dir', default='data/demos')
+    parser.add_argument('--output-dir', default='data/demo_0505')
     return parser.parse_args()
     
 def should_save_episode(writer):
@@ -106,6 +106,7 @@ def main(args):
 
     try:
         while True: # 持续运行循环
+            print("args.save: ", args.save, "args.output_dir: ", args.output_dir)
             writer = EpisodeWriter(args.output_dir) if args.save else None
             
             # 循环运行在这里!

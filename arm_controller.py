@@ -139,7 +139,7 @@ def command_loop_retract(command_queue, stop_event):
         time.sleep(POLICY_CONTROL_PERIOD)  # Note: Not precise
 
 def command_loop_circle(arm, command_queue, stop_event):
-    from ik_solver import IKSolver
+    from robot_controller.ik_solver import IKSolver
     ik_solver = IKSolver(ee_offset=0.12)
     quat = np.array([0.707, 0.707, 0.0, 0.0])  # (x, y, z, w)
     radius = 0.1

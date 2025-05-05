@@ -1,10 +1,4 @@
-
-# Note: This code is only intended for debugging the base controller.
-# In external code, avoid directly importing Vehicle as done here.
-# Instead, please use the RPC server in base_server.py, which runs the
-# low-level controller in a dedicated, real-time process to help minimize
-# unintended latency spikes caused by external code.
-
+# 游戏手柄遥操作
 import os
 import signal
 import time

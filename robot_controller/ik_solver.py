@@ -6,14 +6,23 @@
 
 import mujoco
 import numpy as np
-
+import os
 DAMPING_COEFF = 1e-12
 MAX_ANGLE_CHANGE = np.deg2rad(45)
+
+def model_path_constructor():
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    model_path = os.path.join(current_dir, '..', 'models', 'gen3.xml')
+    # model_path = os.path.abspath(model_path) # 绝对路径,可加可不加,效果一样
+    return model_path
 
 class IKSolver:
     def __init__(self, ee_offset=0.0):
         # Load arm without gripper
-        self.model = mujoco.MjModel.from_xml_path('models/gen3.xml')
+        # print(f"Current working directory: {os.getcwd()}")
+        model_path = model_path_constructor()
+        print(f"Model path: {model_path}")
+        self.model = mujoco.MjModel.from_xml_path(model_path) 
         self.data = mujoco.MjData(self.model)
         self.model.body_gravcomp[:] = 1.0
 
