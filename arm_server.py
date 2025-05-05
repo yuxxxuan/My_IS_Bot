@@ -13,10 +13,15 @@ import queue
 import time
 from multiprocessing.managers import BaseManager as MPBaseManager
 import numpy as np
-from arm_controller import JointCompliantController
+from robot_controller.gen3.arm_controller import JointCompliantController
+from robot_controller.gen3.kinova import TorqueControlledArm
+import os,sys
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+print(parent_dir)
+sys.path.append(parent_dir)
 from configs.constants import ARM_RPC_HOST, ARM_RPC_PORT, RPC_AUTHKEY
 from robot_controller.ik_solver import IKSolver
-from kinova import TorqueControlledArm
+
 
 class Arm:
     def __init__(self):

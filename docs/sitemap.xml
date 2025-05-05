@@ -2,98 +2,106 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://fennmai.github.io/IS_Bot/</loc>
-         <lastmod>2025-04-22</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://fennmai.github.io/IS_Bot/contributing/</loc>
-         <lastmod>2025-04-22</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://fennmai.github.io/IS_Bot/overview/</loc>
-         <lastmod>2025-04-22</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://fennmai.github.io/IS_Bot/api/controllers/</loc>
-         <lastmod>2025-04-22</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://fennmai.github.io/IS_Bot/api/mujoco_env/</loc>
-         <lastmod>2025-04-22</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://fennmai.github.io/IS_Bot/architecture/mujoco_env/</loc>
-         <lastmod>2025-04-22</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://fennmai.github.io/IS_Bot/architecture/real_env/</loc>
-         <lastmod>2025-04-22</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://fennmai.github.io/IS_Bot/architecture/system/</loc>
-         <lastmod>2025-04-22</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://fennmai.github.io/IS_Bot/architecture/teleop/</loc>
-         <lastmod>2025-04-22</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://fennmai.github.io/IS_Bot/file_structure/core_modules/</loc>
-         <lastmod>2025-04-22</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://fennmai.github.io/IS_Bot/file_structure/overview/</loc>
-         <lastmod>2025-04-22</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://fennmai.github.io/IS_Bot/file_structure/robot_control/</loc>
-         <lastmod>2025-04-22</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://fennmai.github.io/IS_Bot/file_structure/simulation/</loc>
-         <lastmod>2025-04-22</lastmod>
+         <lastmod>2025-05-05</lastmod>
+    </url>
+    <url>
+         <loc>https://fennmai.github.io/IS_Bot/tutorials/20250321_notes/</loc>
+         <lastmod>2025-05-05</lastmod>
+    </url>
+    <url>
+         <loc>https://fennmai.github.io/IS_Bot/tutorials/20250420_notes/</loc>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://fennmai.github.io/IS_Bot/tutorials/advanced_features/</loc>
-         <lastmod>2025-04-22</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://fennmai.github.io/IS_Bot/tutorials/basic_usage/</loc>
-         <lastmod>2025-04-22</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://fennmai.github.io/IS_Bot/tutorials/data_augmentation/</loc>
-         <lastmod>2025-04-22</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://fennmai.github.io/IS_Bot/tutorials/data_replay/</loc>
-         <lastmod>2025-04-22</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://fennmai.github.io/IS_Bot/tutorials/dataset_management/</loc>
-         <lastmod>2025-04-22</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://fennmai.github.io/IS_Bot/tutorials/extend_interface/</loc>
-         <lastmod>2025-04-22</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://fennmai.github.io/IS_Bot/tutorials/model_deployment/</loc>
-         <lastmod>2025-04-22</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://fennmai.github.io/IS_Bot/tutorials/mujoco_usage/</loc>
-         <lastmod>2025-04-22</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://fennmai.github.io/IS_Bot/tutorials/real_robot_usage/</loc>
-         <lastmod>2025-04-22</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://fennmai.github.io/IS_Bot/tutorials/setup/</loc>
-         <lastmod>2025-04-22</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://fennmai.github.io/IS_Bot/tutorials/teleop/</loc>
-         <lastmod>2025-04-22</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
 </urlset>

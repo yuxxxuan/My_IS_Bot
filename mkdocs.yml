@@ -58,6 +58,9 @@ nav:
         - 数据增强: tutorials/data_augmentation.md
         - 数据集管理与转换: tutorials/dataset_management.md
         - 模型部署: tutorials/model_deployment.md
+    - 历史笔记:
+        - 20250321_notes: tutorials/20250321_notes.md
+        - 20250420_notes: tutorials/20250420_notes.md
     - 未来规划:
         - 拓展接口功能: tutorials/extend_interface.md
   - API参考:

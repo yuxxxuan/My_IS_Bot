@@ -19,6 +19,16 @@ python test/arm_test.py
 # [Real] camera 测试
 
 # [Real] 遥操作测试
+# 启动服务
+python arm_server.py
+# 启动遥控操作
+python replay_episodes.py --sim --sim-showing --input-dir data/demo_0505
+
+# [Real2Real]
+python replay_episodes.py --input-dir data/demo_0505
+
+# [Real2Sim]
+python replay_episodes.py --sim --sim-showing --input-dir data/demo_0505
 
 # [Sim] 仿真遥操作
 # 仿真遥操作测试
@@ -27,7 +37,7 @@ python main.py --sim --teleop
 # 仿真遥操作数据保存测试
 python main.py --sim --teleop --save --output-dir data/demo_sim
 
-# 播放arm数据测试
+# [Sim2Sim]
 python replay_episodes.py --sim --sim-showing --input-dir data/demo_sim
 
 # [Sim] [解耦测试] 仿真环境加载渲染和运行

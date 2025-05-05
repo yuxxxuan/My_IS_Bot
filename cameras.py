@@ -6,7 +6,7 @@ import numpy as np
 from kortex_api.autogen.client_stubs.DeviceManagerClientRpc import DeviceManagerClient
 from kortex_api.autogen.client_stubs.VisionConfigClientRpc import VisionConfigClient
 from kortex_api.autogen.messages import DeviceConfig_pb2, VisionConfig_pb2
-from kinova import DeviceConnection
+from robot_controller.gen3.kinova import DeviceConnection
 from configs.constants import BASE_CAMERA_SERIAL
 
 class Camera:

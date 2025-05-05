@@ -1,4 +1,4 @@
-
+# kinova.py
 # References:
 # - https://github.com/Kinovarobotics/kortex/blob/master/api_python/examples/108-Gen3_torque_control/01-torque_control_cyclic.py
 # - https://github.com/empriselab/kortex_hardware/blob/main/src/Gen3Robot.cpp
@@ -20,7 +20,15 @@ from kortex_api.RouterClient import RouterClient, RouterClientSendOptions
 from kortex_api.SessionManager import SessionManager
 from kortex_api.TCPTransport import TCPTransport
 from kortex_api.UDPTransport import UDPTransport
-from utils import create_pid_file
+from .utils import create_pid_file
+
+def model_path_constructor():
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    print(current_dir)
+    model_path = os.path.join(current_dir, '..', '..','models', 'robot_urdf/gen3_robotiq_2f_85.urdf')
+    print(model_path)
+    model_path = os.path.abspath(model_path) # 绝对路径,可加可不加,效果一样
+    return model_path
 
 class TorqueControlledArm:
     def __init__(self):
@@ -88,7 +96,9 @@ class TorqueControlledArm:
         self.gripper_pos = 0
 
         # Pinocchio setup (only used in low-level servoing mode)
-        self.model = pin.buildModelFromUrdf('models/robot_urdf/gen3_robotiq_2f_85.urdf')
+        model_urdf = model_path_constructor()
+        print(f"model urdf:", model_urdf)
+        self.model = pin.buildModelFromUrdf(model_urdf)
         self.data = self.model.createData()
         self.q_pin = np.zeros(self.model.nq)
         self.tool_frame_id = self.model.getFrameId('tool_frame')

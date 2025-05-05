@@ -3,7 +3,7 @@
 from cameras import KinovaCamera, LogitechCamera
 from configs.constants import BASE_RPC_HOST, BASE_RPC_PORT, ARM_RPC_HOST, ARM_RPC_PORT, RPC_AUTHKEY
 from configs.constants import BASE_CAMERA_SERIAL
-from robot_controller.gen3.arm_server import ArmManager 
+from arm_server import ArmManager 
 # from base_server import BaseManager
 
 class RealEnv:

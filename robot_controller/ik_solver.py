@@ -13,7 +13,9 @@ MAX_ANGLE_CHANGE = np.deg2rad(45)
 def model_path_constructor():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     model_path = os.path.join(current_dir, '..', 'models', 'gen3.xml')
-    # model_path = os.path.abspath(model_path) # 绝对路径,可加可不加,效果一样
+    print(model_path)
+    model_path = os.path.abspath(model_path) # 绝对路径,可加可不加,效果一样
+    
     return model_path
 
 class IKSolver:
