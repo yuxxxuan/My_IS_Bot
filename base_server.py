@@ -12,7 +12,7 @@
 import time
 from multiprocessing.managers import BaseManager as MPBaseManager
 from base_controller import Vehicle
-from constants import BASE_RPC_HOST, BASE_RPC_PORT, RPC_AUTHKEY
+from configs.constants import BASE_RPC_HOST, BASE_RPC_PORT, RPC_AUTHKEY
 
 class Base:
     def __init__(self, max_vel=(0.5, 0.5, 1.57), max_accel=(0.25, 0.25, 0.79)):

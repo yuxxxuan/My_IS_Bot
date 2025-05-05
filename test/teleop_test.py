@@ -4,8 +4,14 @@
 import mujoco
 import mujoco.viewer
 import numpy as np
-from policies import TeleopPolicy
+import os
+import sys
 
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(parent_dir)
+print(f"parent_dir: {parent_dir}")
+
+from policies import TeleopPolicy
 policy = TeleopPolicy()
 policy.reset()  # Wait for user to press "Start episode"
 

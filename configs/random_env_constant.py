@@ -1,4 +1,8 @@
 # random_env_constant.py    
+# Author: ZMAI
+# Date: 2025-05-04
+# Version: 1.1
+
 CANDIDATE_MATERIAL_NAMES = [
     'light-wood-mat',
     'light-gray-floor-tile-mat',

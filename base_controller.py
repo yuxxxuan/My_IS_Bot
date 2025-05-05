@@ -32,8 +32,8 @@ import phoenix6
 from phoenix6 import configs, controls, hardware
 from ruckig import InputParameter, OutputParameter, Result, Ruckig, ControlInterface
 from threadpoolctl import threadpool_limits
-from constants import h_x, h_y, ENCODER_MAGNET_OFFSETS
-from constants import POLICY_CONTROL_PERIOD
+from configs.constants import h_x, h_y, ENCODER_MAGNET_OFFSETS
+from configs.constants import POLICY_CONTROL_PERIOD
 from utils import create_pid_file
 
 # Vehicle

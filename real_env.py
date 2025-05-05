@@ -1,8 +1,8 @@
 # Update: 2025-03-19
 
 from cameras import KinovaCamera, LogitechCamera
-from constants import BASE_RPC_HOST, BASE_RPC_PORT, ARM_RPC_HOST, ARM_RPC_PORT, RPC_AUTHKEY
-from constants import BASE_CAMERA_SERIAL
+from configs.constants import BASE_RPC_HOST, BASE_RPC_PORT, ARM_RPC_HOST, ARM_RPC_PORT, RPC_AUTHKEY
+from configs.constants import BASE_CAMERA_SERIAL
 from arm_server import ArmManager 
 # from base_server import BaseManager
 
@@ -97,7 +97,7 @@ class RealEnv:
 if __name__ == '__main__':
     import time
     import numpy as np
-    from constants import POLICY_CONTROL_PERIOD
+    from configs.constants import POLICY_CONTROL_PERIOD
     env = RealEnv()
     try:
         while True:

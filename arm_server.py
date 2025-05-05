@@ -14,7 +14,7 @@ import time
 from multiprocessing.managers import BaseManager as MPBaseManager
 import numpy as np
 from arm_controller import JointCompliantController
-from constants import ARM_RPC_HOST, ARM_RPC_PORT, RPC_AUTHKEY
+from configs.constants import ARM_RPC_HOST, ARM_RPC_PORT, RPC_AUTHKEY
 from ik_solver import IKSolver
 from kinova import TorqueControlledArm
 

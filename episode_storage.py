@@ -6,7 +6,7 @@ from datetime import datetime
 from pathlib import Path
 import cv2 as cv
 import numpy as np
-from constants import POLICY_CONTROL_FREQ
+from configs.constants import POLICY_CONTROL_FREQ
 
 def write_frames_to_mp4(frames, mp4_path):
     height, width, _ = frames[0].shape

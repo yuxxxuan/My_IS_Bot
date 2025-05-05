@@ -15,7 +15,7 @@ import zmq  # 导入ZeroMQ模块
 from flask import Flask, render_template  # 导入Flask框架
 from flask_socketio import SocketIO, emit  # 导入Flask-SocketIO模块
 from scipy.spatial.transform import Rotation as R  # 导入旋转变换模块
-from constants import POLICY_SERVER_HOST, POLICY_SERVER_PORT, POLICY_IMAGE_WIDTH, POLICY_IMAGE_HEIGHT  # 导入常量
+from configs.constants import POLICY_SERVER_HOST, POLICY_SERVER_PORT, POLICY_IMAGE_WIDTH, POLICY_IMAGE_HEIGHT  # 导入常量
 import xml.etree.ElementTree as ET  # 导入XML解析模块
 
 
@@ -310,7 +310,7 @@ class TeleopController:
         if arm_quat[3] < 0.0:  # 确保四元数唯一性
             np.negative(arm_quat, out=arm_quat)  # 反转四元数
         action = {
-            'base_pose': self.base_target_pose.copy(),  # 返回基座目标位置
+            # 'base_pose': self.base_target_pose.copy(),  # 返回基座目标位置
             'arm_pos': self.arm_target_pos.copy(),  # 返回手臂目标位置
             'arm_quat': arm_quat,  # 返回手臂目标旋转
             'gripper_pos': self.gripper_target_pos.copy(),  # 返回夹爪目标位置
@@ -407,7 +407,7 @@ class TeleopPolicy(Policy):
         # print("[TeleopPolicy-_process_message] Finished")
         
 
-# Execute policy running on remote server
+# Execute policy running on remote server(云端部署的模型服务)
 class RemotePolicy(TeleopPolicy):
     def __init__(self):
         """初始化远程策略
@@ -494,7 +494,7 @@ class RemotePolicy(TeleopPolicy):
 if __name__ == '__main__':
     # WebServer(Queue()).run(); time.sleep(1000)
     # WebXRListener(); time.sleep(1000)
-    from constants import POLICY_CONTROL_PERIOD
+    from configs.constants import POLICY_CONTROL_PERIOD
     obs = {
         # 'base_pose': np.zeros(3),  # 基座位置
         'arm_pos': np.zeros(3),  # 手臂位置

@@ -1,8 +1,29 @@
 # IS_Bot
 
 Simulation and Reality Data Super Hybrid Platform
+## 1. QuickStart
+1. 安装包
+```
+pip install -r requirements.txt
+```
+2. 测试项目
+```bash
 
-## 文档
+# [Real]机器人通信和控制测试 --- arm回到retract位置
+python arm_test_retract.py
+
+# [Real]camera 测试
+
+# [Real]遥操作测试
+
+# [Sim]仿真环境加载渲染和运行
+python mujoco_env.py
+
+# [Sim]遥操作连接测试
+python test/teleop_test.py
+```
+
+## 2.文档
 ### Online
 详细文档与教程已发布：[IS_Bot 文档](https://fennmai.github.io/IS_Bot/)
 

@@ -1,11 +1,19 @@
 import argparse
 import time
 from itertools import count
-from constants import POLICY_CONTROL_PERIOD  # 从常量模块导入控制周期
+from configs.constants import POLICY_CONTROL_PERIOD  # 从常量模块导入控制周期
 from episode_storage import EpisodeWriter    # 数据存储模块
 from policies import TeleopPolicy, RemotePolicy  # 策略控制模块
 import numpy as np
 
+def args_parser_setting():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--sim', action='store_true')
+    parser.add_argument('--teleop', action='store_true')
+    parser.add_argument('--save', action='store_true')
+    parser.add_argument('--output-dir', default='data/demos')
+    return parser.parse_args()
+    
 def should_save_episode(writer):
     if len(writer) == 0:
         print('Discarding empty episode')
@@ -106,9 +114,5 @@ def main(args):
         env.close() # 关闭环境
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--sim', action='store_true')
-    parser.add_argument('--teleop', action='store_true')
-    parser.add_argument('--save', action='store_true')
-    parser.add_argument('--output-dir', default='data/demos')
-    main(parser.parse_args())
+    args = args_parser_setting()
+    main(args)

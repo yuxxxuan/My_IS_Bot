@@ -1,3 +1,4 @@
+# Gravity compensation
 import time
 from kinova import TorqueControlledArm, grav_comp_control_callback
 

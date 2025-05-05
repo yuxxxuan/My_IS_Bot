@@ -1,3 +1,8 @@
+# define some constants here
+# Author: ZMAI
+# Date: 2025-05-04
+# Version: 1.1
+
 import numpy as np
 
 ################################################################################

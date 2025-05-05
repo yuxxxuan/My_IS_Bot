@@ -9,7 +9,7 @@ import math
 import time
 import numpy as np
 from ruckig import InputParameter, OutputParameter, Result, Ruckig
-from constants import POLICY_CONTROL_PERIOD
+from configs.constants import POLICY_CONTROL_PERIOD
 from kinova import TorqueControlledArm
 
 ALPHA = 0.01

@@ -3,7 +3,7 @@ import time
 from itertools import count
 from pathlib import Path
 import cv2 as cv
-from constants import POLICY_CONTROL_PERIOD
+from configs.constants import POLICY_CONTROL_PERIOD
 from episode_storage import EpisodeReader
 from mujoco_env import MujocoEnv
 
