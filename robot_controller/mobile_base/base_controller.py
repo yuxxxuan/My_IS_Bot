@@ -1,7 +1,4 @@
-# Author: ZMAI
-# Date: 2025-05-04
-# Version: 1.1
-#
+
 # IMPORTANT: The mobile base has very strong motors and should be closely
 # monitored during operation, especially if any changes are made to this code.
 # When testing out new code, consider starting out with very low speeds and
@@ -34,7 +31,7 @@ from ruckig import InputParameter, OutputParameter, Result, Ruckig, ControlInter
 from threadpoolctl import threadpool_limits
 from configs.constants import h_x, h_y, ENCODER_MAGNET_OFFSETS
 from configs.constants import POLICY_CONTROL_PERIOD
-from utils import create_pid_file
+from robot_controller.gen3.utils import create_pid_file
 
 # Vehicle
 CONTROL_FREQ = 250                   # 250 Hz

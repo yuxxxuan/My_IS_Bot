@@ -2,7 +2,7 @@ import argparse
 import time
 from itertools import count
 from configs.constants import POLICY_CONTROL_PERIOD  # 从常量模块导入控制周期
-from episode_storage import EpisodeWriter    # 数据存储模块
+from collector.episode_storage import EpisodeWriter    # 数据存储模块
 from policies import TeleopPolicy, RemotePolicy  # 策略控制模块
 import numpy as np
 

@@ -15,6 +15,9 @@ import zmq  # 导入ZeroMQ模块
 from flask import Flask, render_template  # 导入Flask框架
 from flask_socketio import SocketIO, emit  # 导入Flask-SocketIO模块
 from scipy.spatial.transform import Rotation as R  # 导入旋转变换模块
+import os, sys
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(parent_dir)
 from configs.constants import POLICY_SERVER_HOST, POLICY_SERVER_PORT, POLICY_IMAGE_WIDTH, POLICY_IMAGE_HEIGHT  # 导入常量
 import xml.etree.ElementTree as ET  # 导入XML解析模块
 
@@ -108,7 +111,11 @@ def convert_webxr_pose(pos, quat):
 
     return pos, rot  # 返回转换后的位置和旋转
 
-
+def model_path_constructor():
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    model_path = os.path.join(current_dir, '..', 'models', 'gen3_2f85.xml')
+    model_path = os.path.abspath(model_path) # 绝对路径,可加可不加,效果一样
+    return model_path
 
 class TeleopController:
     # only gen3 ->  初始化可注释可不注释
@@ -150,7 +157,8 @@ class TeleopController:
         self.gripper_ref_pos = None  # 夹爪参考位置
         
         self.base2arm_ref_pose = None  # 由世界坐标到arm的相对坐标参考位置，原代码不改动
-        mujoco_xml_path = "models/gen3_2f85.xml"
+        mujoco_xml_path = model_path_constructor()
+        print(f"[TeleopController-__init__] mujoco_xml_path: {mujoco_xml_path}")
         self._parse_base_link_pos(mujoco_xml_path)
         print(f"[TeleopController-__init__] base2arm_ref_pose: {self.base2arm_ref_pose}")
         

@@ -17,14 +17,13 @@ python main.py --sim --teleop
 python main.py --sim --teleop --save --output-dir data/demo_sim
 ```
 
-- sim2sim replay （need to debug）
+- sim2sim replay
 
 ```bash
 # 带上场景切换的展示特效
 python replay_episodes.py --sim --sim-showing --input-dir data/demo_sim
 # 1
-python replay_episodes.py --sim --input-dir data/demos --execute-obs
-
+python replay_episodes.py --sim --input-dir data/demo_sim --execute-obs
 ```
 
 - real arm retract

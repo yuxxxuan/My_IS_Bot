@@ -9,8 +9,12 @@ import h5py
 import numpy as np
 from scipy.spatial.transform import Rotation
 from tqdm import tqdm
+import os
+import sys
 from configs.constants import POLICY_IMAGE_WIDTH, POLICY_IMAGE_HEIGHT
-from episode_storage import EpisodeReader
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(parent_dir)
+from collector.episode_storage import EpisodeReader
 
 def main(input_dir, output_path):
     # Get list of episode dirs

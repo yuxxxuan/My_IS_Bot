@@ -3,8 +3,9 @@ import time
 from itertools import count
 from pathlib import Path
 import cv2 as cv
+import os, sys
 from configs.constants import POLICY_CONTROL_PERIOD
-from episode_storage import EpisodeReader
+from collector.episode_storage import EpisodeReader
 from mujoco_env import MujocoEnv
 
 time_per_segment = 0.5
@@ -91,7 +92,7 @@ def main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--input-dir', default='data/demos')
+    parser.add_argument('--input-dir', default='/data/demos')
     parser.add_argument('--sim', action='store_true')
     parser.add_argument('--sim-showing', action='store_true')
     parser.add_argument('--show-images', action='store_true')

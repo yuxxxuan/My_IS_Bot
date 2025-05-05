@@ -6,6 +6,10 @@ from datetime import datetime
 from pathlib import Path
 import cv2 as cv
 import numpy as np
+import os
+import sys
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(parent_dir)
 from configs.constants import POLICY_CONTROL_FREQ
 
 def write_frames_to_mp4(frames, mp4_path):
