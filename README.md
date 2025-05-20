@@ -71,7 +71,9 @@ mkdocs serve
 ### 在仿真平台上测试模型效果
 
 ```
-1.在policies中添加自己的策略，如policies/openvla_policies.py，与server通信，推荐使用http协议
+1.在policies中添加自己的策略，如policies/openvla_policies.py
+- 与server通信，推荐使用http协议
+- 注意mujoco关节角范围是[-pi,pi],夹爪[0,1]，需要映射
 
 2.在main中添加新的args调用自己的策略，如openvla
 
