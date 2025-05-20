@@ -5,12 +5,14 @@ from configs.constants import POLICY_CONTROL_PERIOD  # 从常量模块导入控�
 from collector.episode_storage import EpisodeWriter    # 数据存储模块
 from policies import TeleopPolicy, RemotePolicy  # 策略控制模块
 import numpy as np
+from policies.openvla_policies import OpenVLAPolicy  # 导入新的OpenVLAPolicy策略模块
 
 def args_parser_setting():
     parser = argparse.ArgumentParser()
     parser.add_argument('--sim', action='store_true')
     parser.add_argument('--teleop', action='store_true')
     parser.add_argument('--save', action='store_true')
+    parser.add_argument('--openvla', action='store_true')
     parser.add_argument('--output-dir', default='data/demo_0505')
     return parser.parse_args()
     
@@ -66,9 +68,9 @@ def run_episode(env, policy, writer=None):
             if writer is not None and not episode_ended:
                 # Record executed action
                 writer.step(obs, action)
-
+                
         # Episode ended
-        elif not episode_ended and action == 'end_episode':
+        elif isinstance(action, str) and action == 'end_episode':  # 先检查action是否是字符串
             episode_ended = True
             print('Episode ended')
 
@@ -79,8 +81,23 @@ def run_episode(env, policy, writer=None):
             print('Teleop is now active. Press "Reset env" in the web app when ready to proceed.')
 
         # Ready for env reset
-        elif action == 'reset_env':
+        elif isinstance(action, str) and action == 'reset_env':  # 先检查action是否是字符串
             break
+
+        # # Episode ended
+        # elif not episode_ended and action == 'end_episode':
+        #     episode_ended = True
+        #     print('Episode ended')
+
+        #     if writer is not None and should_save_episode(writer):
+        #         # Save to disk in background thread
+        #         writer.flush_async()
+
+        #     print('Teleop is now active. Press "Reset env" in the web app when ready to proceed.')
+
+        # # Ready for env reset
+        # elif action == 'reset_env':
+        #     break
 
     if writer is not None:
         # Wait for writer to finish saving to disk
@@ -93,7 +110,7 @@ def main(args):
         if args.teleop :
             env = MujocoEnv(show_images=True)
         else:
-            env = MujocoEnv()
+            env = MujocoEnv(offscreen=True,show_images=True)
     else: # 导入真实环境配置
         from real_env import RealEnv
         env = RealEnv()
@@ -101,8 +118,12 @@ def main(args):
     # Create policy / 创建远程连接策略
     if args.teleop:
         policy = TeleopPolicy() # 创建遥控操作策略
+    elif args.openvla:
+    # 使用新的OpenVLAPolicy策略
+        policy = OpenVLAPolicy(server_url="http://192.168.3.101:9000",env=env)  # API地址
     else:
         policy = RemotePolicy() # 创建远程连接策略？ 为了训练？
+
 
     try:
         while True: # 持续运行循环

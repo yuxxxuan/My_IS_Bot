@@ -61,16 +61,20 @@
 
    <!-- camera1 -->
    <!-- <camera name="camera" pos="0 0 0.5" fovy="30" width="1280" height="720"/> -->
-
-    <!-- <camera name="top_view" pos="0.8 0 1.2" target="0.8 0 0" fovy="45"/>
+   <!-- good -->
+    <camera name="external_camera" pos="0.2 -0.6 0.55" quat="-0.92388 -0.382683 0 0" fovy="60" resolution="640 480"/>
+    <!--  not good -->
+    <!-- <camera name="external_camera" pos="0.3 0.6 1.0" quat="0 0 0.383 0.924" fovy="60" resolution="640 480"/> -->
+   <!-- previous -->
+   <!-- <camera name="top_view" pos="0.8 0 1.2" target="0.8 0 0" fovy="45"/>
     <camera name="side_view" pos="1.5 0.6 0.5" target="0.8 0 0.3" fovy="45"/>
     <camera name="robot_pov" pos="0.2 0 0.8" target="0.8 0 0.3" fovy="60"/> -->
 
     <!-- floor1 -->
     <geom name="floor1"  pos = "0 0 -0.81" size="0 0 0.05" type="plane" material="light-gray-floor-tile-mat"/>
 
-    <!-- cube group-->
-    <body name="cube_1" pos="0.2 0.21 0.02">
+    <!-- cube group -->
+    <!-- <body name="cube_1" pos="0.2 0.21 0.02">
       <freejoint/>
       <geom type="box" size="0.02 0.02 0.02" rgba=".5 .7 .9 1" mass="0.1"/>
     </body>
@@ -88,41 +92,45 @@
     <body name="cube_4" pos="0.5 0.21 0.02">
       <freejoint/>
       <geom type="box" size="0.02 0.02 0.02" rgba="1.0 0.5 0.5 1" mass="0.1"/>
-    </body>
+    </body> -->
 
     <!-- apple -->
-    <body name="apple_1" pos="0.4 0 0.04">
+    <!-- <body name="apple_1" pos="0.4 0 0.04">
       <joint type="free"/>
       <geom solimp="0.998 0.998 0.001" solref="0.02 1" mass="0.2" friction="0.95 0.3 0.1" type="mesh" mesh="apple_obj" conaffinity="1" contype="1" group="1" material="apple-material"/>
-      <!-- <geom type="sphere" size="0.03" rgba="1 0.5 0 1"  mass="0.1" material="apple-mat"/> -->
-    </body>
+      
+    </body> -->
 
-    <body name="apple_2" pos="0.3 0.1 0.04">
+    <!-- <body name="apple_2" pos="0.3 0.1 0.04">
       <joint type="free"/>
       <geom solimp="0.998 0.998 0.001" solref="0.02 1" mass="0.2" friction="0.95 0.3 0.1" type="mesh" mesh="apple_obj" conaffinity="1" contype="1" group="1" material="apple-material"/>
-      <!-- <geom type="sphere" size="0.03" rgba="1 0.5 0 1"  mass="0.1" material="apple-mat"/> -->
-    </body>
+    
+    </body> -->
 
     <!-- banana -->
-    <body name="banana_1" pos="0.38 -0.25 0.06">
+    <!-- <body name="banana_1" pos="0.38 -0.3 0.06">
       <joint type="free"/>
       <geom solimp="0.95 0.98 0.005" solref="0.001 1" mass="0.1" friction="1.0 0.1 0.1" type="mesh" mesh="banana_obj" conaffinity="1" contype="1" group="1" material="banana-material"/>
-    </body>
+    </body> -->
 
     <!-- orange -->
-    <body name="orange_1" pos="0.32 -0.1 0.06">
+    <body name="orange_1" pos="0.40 -0.05 0.06">
       <joint type="free"/>
       <geom solimp="0.95 0.98 0.005" solref="0.02 1" mass="0.1" friction="1.0 0.1 0.1" type="mesh" mesh="orange_obj" conaffinity="1" contype="1" group="1" material="orange-material"/>
     </body>
 
-    <!-- orange 2 (in tray 2)-->
-    <body name="orange_2" pos="0.68 -0.18 0.05">
+    <!-- <body name="orange_1" pos="0.48 -0.15 0.06">
       <joint type="free"/>
       <geom solimp="0.95 0.98 0.005" solref="0.02 1" mass="0.1" friction="1.0 0.1 0.1" type="mesh" mesh="orange_obj" conaffinity="1" contype="1" group="1" material="orange-material"/>
-    </body>
+    </body> -->
+    <!-- orange 2 (in tray 2)-->
+    <!-- <body name="orange_2" pos="0.8 -0.18 0.05">
+      <joint type="free"/>
+      <geom solimp="0.95 0.98 0.005" solref="0.02 1" mass="0.1" friction="1.0 0.1 0.1" type="mesh" mesh="orange_obj" conaffinity="1" contype="1" group="1" material="orange-material"/>
+    </body> -->
 
     <!-- plate -->
-    <body name="plate_1" pos="0.37 -0.26 0.02">
+    <body name="plate_1" pos="0.37 -0.3 0.02">
       <freejoint/>
       <geom type="mesh" mesh="plate_obj" conaffinity="1" contype="1" group="1" material="palte-green-material" mass="0.5" friction="1.0 0.1 0.1" solimp="0.95 0.98 0.005" solref="0.001 1"/>
     </body>

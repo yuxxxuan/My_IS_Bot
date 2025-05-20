@@ -67,3 +67,13 @@ mkdocs build
 # 本地运行测试
 mkdocs serve
 ```
+## 3.使用
+### 在仿真平台上测试模型效果
+
+```
+1.在policies中添加自己的策略，如policies/openvla_policies.py，与server通信
+
+2.在main中添加新的args调用自己的策略，如openvla
+
+3.运行python main.py --sim --[Your Polocy]，如python main.py --sim --openvla
+```

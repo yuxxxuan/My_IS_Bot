@@ -512,8 +512,8 @@ if __name__ == '__main__':
         'base_image': np.zeros((640, 360, 3)),  # 基座图像  这个在哪用了？？？mb
         'wrist_image': np.zeros((640, 480, 3)),  # 手腕图像
     }
-    policy = TeleopPolicy()  # 创建遥控策略
-    # policy = RemotePolicy()  # 创建远程策略
+    # policy = TeleopPolicy()  # 创建遥控策略
+    policy = RemotePolicy()  # 创建远程策略
     while True:
         policy.reset()  # 重置策略
         for _ in range(100):
